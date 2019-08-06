@@ -24,7 +24,7 @@ class LoginState extends State<Login> {
           ),
         ),
         child: Container(
-          child: Column(
+          child: ListView(
             children: <Widget>[
               Container(
                 height: 400.0,
