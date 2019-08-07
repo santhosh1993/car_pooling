@@ -1,16 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:car_pooling/Interface/LoginUIInterface.dart';
 
 class Login extends StatefulWidget {
+  final LoginUIInterface interface;
+
+  Login(this.interface);
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return LoginState();
+    return LoginState(interface);
   }
 }
 
 class LoginState extends State<Login> {
   final TextEditingController _userController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final LoginUIInterface interface;
+
+  LoginState(this.interface);
+  // Login Action
+  void loginButtonTapped() {
+    setState(() {
+      interface.userName = _userController.text;
+      interface.password = _passwordController.text;
+      interface.loginButtonTapped();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +72,9 @@ class LoginState extends State<Login> {
                     child: FlatButton(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(23.0)),
-                      onPressed: () {},
+                      onPressed: () {
+                        loginButtonTapped();
+                      },
                       child: Text(
                         "Login",
                         style: TextStyle(color: Colors.white),
