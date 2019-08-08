@@ -109,13 +109,12 @@ class CustomTextField extends StatelessWidget {
       controller: _controller,
       obscureText: _obscureText,
       decoration: InputDecoration(
-          hintText: _hintText,
+          labelText: _hintText,
           icon: Icon(
             _iconData,
             color: Colors.white70,
           ),
-          hintStyle: TextStyle(color: Colors.white70),
-          labelStyle: TextStyle(color: Colors.white),
+          labelStyle: TextStyle(color: Colors.white70),
           enabledBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.white70)),
           focusedBorder: UnderlineInputBorder(
