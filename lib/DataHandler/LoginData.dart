@@ -1,7 +1,6 @@
-import 'package:car_pooling/Interface/LoginUIInterface.dart';
+import 'package:car_pooling/UI/Login.dart';
 import 'package:car_pooling/ServiceLayer/LoginRequest.dart';
 import 'package:flutter/material.dart';
-import 'package:car_pooling/UI/Dashboard.dart';
 
 class LoginData implements LoginUIInterface,LoginRequestInterface{
   @override
@@ -27,6 +26,8 @@ class LoginData implements LoginUIInterface,LoginRequestInterface{
   }
 
   void loginTheUser() {
-    LoginRequest(this).login();
+    Navigator.pushNamed(context, '/dashboard');
+
+    //LoginRequest(this).login();
   }
 }

@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:car_pooling/Interface/LoginUIInterface.dart';
+
+abstract class LoginUIInterface {
+  String userName;
+  String password;
+  BuildContext context;
+  void loginButtonTapped();
+}
 
 class Login extends StatefulWidget {
   final LoginUIInterface interface;
@@ -80,7 +86,7 @@ class LoginState extends State<Login> {
                         "Login",
                         style: TextStyle(color: Colors.white),
                       ),
-                      color: Color.fromRGBO(107, 198, 211, 1.0),
+                      color: Theme.of(context).primaryColor,
                     ),
                   ),
                 ],
