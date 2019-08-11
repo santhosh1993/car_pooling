@@ -1,29 +1,57 @@
 import 'package:car_pooling/UI/Dashboard.dart';
+import 'package:flutter/material.dart';
 
 class DashBoardData implements DashBoardUIInterface{
 
   @override
-  String dateStr = "05 / 09 / 19";
+  int numberOfTabs = 2;
+  @override
+  BuildContext context;
+
+  int selectedIndex = 0;
+  List<String> dateStrList = ["05 / 09 / 19","06 / 09 / 19","07 / 09 / 19","08 / 09 / 19"];
+
+  List<List<DashBoardListTileInterface>> listOfItems = [[
+    DashBoardTileData(1,"05:30 pm"),
+    DashBoardTileData(-1,"06:30 pm"),
+  ],[
+    DashBoardTileData(1,"05:45 pm"),
+  ],[
+    DashBoardTileData(0,"05:50 pm"),
+    DashBoardTileData(-1,"05:55 pm"),
+  ],[
+  ]];
+  @override
+  String get dateStr => dateStrList[selectedIndex];
+  @override
+  List<DashBoardListTileInterface>  get items {
+    return listOfItems[selectedIndex];
+  }
 
   @override
-  List<DashBoardListTileInterface> items = [
-    DashBoardTileData(1),
-    DashBoardTileData(-1),DashBoardTileData(0),DashBoardTileData(-1),DashBoardTileData(-1),
-    DashBoardTileData(0),DashBoardTileData(-1),DashBoardTileData(1),DashBoardTileData(0),
-    DashBoardTileData(-1),DashBoardTileData(-1),DashBoardTileData(1),DashBoardTileData(0),
-    DashBoardTileData(-1),DashBoardTileData(-1),DashBoardTileData(0),DashBoardTileData(1),
-  ];
+  set dateStr(String _dateStr) {
+    // TODO: implement dateStr
+  }
+
+  @override
+  set items(List<DashBoardListTileInterface> _items) {
+    // TODO: implement items
+  }
 
   @override
   void leftTapped() {
     // TODO: implement leftTapped
-    dateStr = "04 / 09 / 19";
+    if(selectedIndex != 0){
+      selectedIndex = selectedIndex - 1;
+    }
   }
 
   @override
   void rightTapped() {
     // TODO: implement rightTapped
-    dateStr = "07 / 09 / 19";
+    if(selectedIndex != (dateStrList.length - 1)){
+      selectedIndex = selectedIndex + 1;
+    }
   }
 }
 
@@ -32,12 +60,12 @@ class DashBoardTileData implements DashBoardListTileInterface {
   List<String> names = ["Metro", "MMTS"];
 
   @override
-  String time = "05:30 pm";
+  String time;
 
   @override
   int selectedIndex;
 
-  DashBoardTileData(this.selectedIndex);
+  DashBoardTileData(this.selectedIndex,this.time);
 
   @override
   void selectedName(int index) {
