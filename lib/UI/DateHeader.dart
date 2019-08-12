@@ -28,7 +28,7 @@ class DateHeaderState extends State<DateHeader> {
                     widget.interface.leftTapped();
                   });
                 },
-                child: Text("<"),
+                child: Icon(Icons.arrow_back_ios,color: Theme.of(context).primaryColor,),
                 padding: EdgeInsets.all(10.0),
               ),
               Text(widget.interface.dateStr),
@@ -38,7 +38,7 @@ class DateHeaderState extends State<DateHeader> {
                     widget.interface.rightTapped();
                   });
                 },
-                child: Text(">"),
+                child: Icon(Icons.arrow_forward_ios,color: Theme.of(context).primaryColor,),
                 padding: EdgeInsets.all(10.0),
               ),
             ],

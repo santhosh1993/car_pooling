@@ -16,6 +16,13 @@ abstract class AdminUIInterface extends DateHeaderUIInterface {
 }
 
 abstract class DriverUIInterface extends DateHeaderUIInterface {
+    List<String> timings;
+    List<PeopleListItemInterface> getListOfPeople();
+
+    void selectedItem(int index);
+}
+
+abstract class PeopleListItemInterface {
 
 }
 
