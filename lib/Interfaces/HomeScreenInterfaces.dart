@@ -11,7 +11,7 @@ abstract class DashBoardUIInterface extends DateHeaderUIInterface {
   BuildContext context;
 }
 
-abstract class AdminUIInterface extends DateHeaderUIInterface {
+abstract class AdminUIInterface extends DriverUIInterface {
 
 }
 
