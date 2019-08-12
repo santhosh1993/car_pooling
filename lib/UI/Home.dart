@@ -1,12 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:car_pooling/UI/Admin.dart';
 
-abstract class DashBoardUIInterface {
-  List<DashBoardListTileInterface> items;
+abstract class DateHeaderUIInterface {
   String dateStr;
-  int numberOfTabs;
-  BuildContext context;
   void leftTapped();
   void rightTapped();
+}
+
+abstract class DashBoardUIInterface extends DateHeaderUIInterface {
+  List<DashBoardListTileInterface> items;
+  BuildContext context;
+}
+
+abstract class AdminUIInterface extends DateHeaderUIInterface {
+
+}
+
+abstract class HomeUIInterface {
+  List<TabInterface> tabsData;
+}
+
+abstract class TabInterface {
+  String title;
+  Widget tabView;
 }
 
 abstract class DashBoardListTileInterface {
@@ -17,97 +33,126 @@ abstract class DashBoardListTileInterface {
   void selectedName(int index);
 }
 
-class DashBoard extends StatefulWidget {
-  DashBoardUIInterface interface;
+class Home extends StatefulWidget{
+  HomeUIInterface interface;
+  List<Tab> _tabs = [];
+  List<Widget> _tabViews = [];
 
-  DashBoard(this.interface);
+  Home(HomeUIInterface interface) {
+    this.interface = interface;
+
+    for(int i =0; i< interface.tabsData.length ; i++) {
+      _tabs.add(Tab(
+        child: Text(interface.tabsData[i].title,style: TextStyle(color:  Colors.white),),
+      ));
+      _tabViews.add(interface.tabsData[i].tabView);
+    }
+  }
 
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return DashBoardState(this.interface);
+    return HomeState();
+  }
+}
+
+class HomeState extends State<Home> {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return DefaultTabController(
+      length: widget.interface.tabsData.length,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+          "Dashboard",
+          style: TextStyle(color: Colors.white),
+          ),
+          bottom: TabBar(tabs: widget._tabs),
+          backgroundColor: Color.fromRGBO(107, 198, 211, 1.0),
+        ),
+        body: TabBarView(children: widget._tabViews),
+    )
+    );
+  }
+}
+
+class DashBoard extends StatefulWidget {
+  DashBoardUIInterface interface;
+  DashBoard(this.interface);
+
+  @override
+  State<StatefulWidget> createState() {
+    return DashBoardState();
   }
 }
 
 class DashBoardState extends State<DashBoard> {
-  DashBoardUIInterface interface;
-  List tabs = [
-    Tab(
-      child: Text("Dashboard",style: TextStyle(color:  Colors.white),),
-    ),
-    Tab(
-      child: Text("Admin",style: TextStyle(color:  Colors.white),),
-    ),
-  ];
-  DashBoardState(this.interface);
-
   @override
   Widget build(BuildContext context) {
-    interface.context = context;
-    return DefaultTabController(
-        length: interface.numberOfTabs,
-        child: Scaffold(
-            appBar: AppBar(
-              title: Text(
-                "Car Polling",
-                style: TextStyle(color: Colors.white),
-              ),
-              bottom: TabBar(
-                tabs: tabs.getRange(0, interface.numberOfTabs).toList().cast<Widget>(),
-                onTap: (selectedIndex) {
-                  print(selectedIndex);
+    return Column(children: <Widget>[
+      DateHeader(widget.interface),
+      Expanded(
+        child: ListView.builder(
+            itemCount: widget.interface.items.length,
+            itemBuilder: (context, index) {
+              print(index);
+              return DashBoardListTile(widget.interface.items[index]);
+            }),
+      ),
+    ]);
+  }
+}
+
+class DateHeader extends StatefulWidget {
+  final DateHeaderUIInterface interface;
+  DateHeader(this.interface);
+
+  @override
+  State<StatefulWidget> createState() {
+    return DateHeaderState();
+  }
+}
+
+class DateHeaderState extends State<DateHeader> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Container(
+          height: 50.0,
+          width: double.infinity,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              FlatButton(
+                onPressed: () {
+                  setState(() {
+                    widget.interface.leftTapped();
+                  });
                 },
+                child: Text("<"),
+                padding: EdgeInsets.all(10.0),
               ),
-              automaticallyImplyLeading: false,
-              backgroundColor: Color.fromRGBO(107, 198, 211, 1.0),
-            ),
-            body: TabBarView(children: <Widget>[
-              Column(children: <Widget>[
-                Container(
-                  height: 50.0,
-                  width: double.infinity,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      FlatButton(
-                        onPressed: () {
-                          setState(() {
-                            interface.leftTapped();
-                          });
-                        },
-                        child: Text("<"),
-                        padding: EdgeInsets.all(10.0),
-                      ),
-                      Text(this.interface.dateStr),
-                      FlatButton(
-                        onPressed: () {
-                          setState(() {
-                            interface.rightTapped();
-                          });
-                        },
-                        child: Text(">"),
-                        padding: EdgeInsets.all(10.0),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  color: Colors.grey,
-                  height: 2.0,
-                ),
-                Expanded(
-                  child: ListView.builder(
-                      cacheExtent: 0.0,
-                      itemCount: interface.items.length,
-                      itemBuilder: (context, index) {
-                        return DashBoardListTile(interface.items[index]);
-                      }),
-                ),
-              ]),
-              Container(
-                child: Text("Admin"),
-              )
-            ])));
+              Text(widget.interface.dateStr),
+              FlatButton(
+                onPressed: () {
+                  setState(() {
+                    widget.interface.rightTapped();
+                  });
+                },
+                child: Text(">"),
+                padding: EdgeInsets.all(10.0),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          color: Colors.grey,
+          height: 2.0,
+        ),
+      ],
+    );
   }
 }
 

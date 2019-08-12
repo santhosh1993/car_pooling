@@ -21,12 +21,12 @@ class LoginData implements LoginUIInterface,LoginRequestInterface{
     // TODO: implement result
     print(json["userName"]);
     if (json["userName"] == null){
-      Navigator.pushNamed(context, '/dashboard');
+      Navigator.pushNamed(context, '/Home');
     }
   }
 
   void loginTheUser() {
-    Navigator.pushNamed(context, '/dashboard');
+    Navigator.pushNamed(context, '/Home');
 
     //LoginRequest(this).login();
   }

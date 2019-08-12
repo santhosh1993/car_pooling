@@ -1,10 +1,7 @@
-import 'package:car_pooling/UI/Dashboard.dart';
+import 'package:car_pooling/UI/Home.dart';
 import 'package:flutter/material.dart';
 
 class DashBoardData implements DashBoardUIInterface{
-
-  @override
-  int numberOfTabs = 2;
   @override
   BuildContext context;
 

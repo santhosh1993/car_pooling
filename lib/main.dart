@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:car_pooling/UI/Login.dart';
 import 'package:car_pooling/DataHandler/LoginData.dart';
-import 'package:car_pooling/UI/Dashboard.dart';
-import 'package:car_pooling/DataHandler/DashBoardData.dart';
+import 'package:car_pooling/UI/Home.dart';
+import 'package:car_pooling/DataHandler/HomeData.dart';
 
 void main() {
   String initalScreen =  '/';
@@ -16,7 +16,7 @@ void main() {
       ),
       routes: {
         '/': (context) => Login(LoginData()),
-        '/dashboard': (context) => DashBoard(DashBoardData()),
+        '/Home': (context) => Home(HomeData()),
       },
     )
   );
