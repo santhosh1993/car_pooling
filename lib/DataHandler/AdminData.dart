@@ -1,9 +1,9 @@
-import 'package:car_pooling/UI/Home.dart';
+import 'package:car_pooling/Interfaces/HomeScreenInterfaces.dart';
 
 class AdminData implements AdminUIInterface {
   int selectedIndex = 0;
   List<String> dateStrList = ["05 / 09 / 19","06 / 09 / 19","07 / 09 / 19","08 / 09 / 19"];
-  
+
   @override
   String get dateStr => dateStrList[selectedIndex];
 

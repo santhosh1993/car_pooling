@@ -1,4 +1,4 @@
-import 'package:car_pooling/UI/Home.dart';
+import 'package:car_pooling/Interfaces/HomeScreenInterfaces.dart';
 import 'package:flutter/material.dart';
 
 class DashBoardData implements DashBoardUIInterface{
