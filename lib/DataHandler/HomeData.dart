@@ -5,13 +5,14 @@ import 'package:car_pooling/UI/Admin.dart';
 import 'package:car_pooling/DataHandler/AdminData.dart';
 import 'package:car_pooling/UI/Driver.dart';
 import 'package:car_pooling/Interfaces/HomeScreenInterfaces.dart';
+import 'package:car_pooling/DataHandler/DriverData.dart';
 
 class HomeData implements HomeUIInterface {
   @override
   List<TabInterface> tabsData = [
     TabData(DashBoard(DashBoardData()), "Book a Seat"),
     TabData(Admin(AdminData()), "Admin"),
-    TabData(Driver(), "Driver"),
+    TabData(Driver(DriverData()), "Driver"),
   ];
 }
 

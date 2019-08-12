@@ -15,6 +15,10 @@ abstract class AdminUIInterface extends DateHeaderUIInterface {
 
 }
 
+abstract class DriverUIInterface extends DateHeaderUIInterface {
+
+}
+
 abstract class HomeUIInterface {
   List<TabInterface> tabsData;
 }

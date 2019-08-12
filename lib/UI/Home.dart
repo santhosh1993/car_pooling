@@ -20,7 +20,6 @@ class Home extends StatefulWidget{
 
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return HomeState();
   }
 }
@@ -36,6 +35,7 @@ class HomeState extends State<Home> {
           "Dashboard",
           style: TextStyle(color: Colors.white),
           ),
+          automaticallyImplyLeading: false,
           bottom: TabBar(tabs: widget._tabs),
           backgroundColor: Color.fromRGBO(107, 198, 211, 1.0),
         ),
@@ -85,7 +85,6 @@ class DashBoardState extends State<DashBoard> implements DateHeaderUIInterface{
         child: ListView.builder(
             itemCount: widget.interface.items.length,
             itemBuilder: (context, index) {
-              print(index);
               return DashBoardListTile(widget.interface.items[index]);
             }),
       ),

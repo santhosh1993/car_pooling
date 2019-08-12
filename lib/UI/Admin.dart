@@ -8,17 +8,40 @@ class Admin extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return AdminState();
   }
 }
 
-class AdminState extends State<Admin> {
+class AdminState extends State<Admin> implements DateHeaderUIInterface {
+  @override
+  String get dateStr => widget.interface.dateStr;
+
+  @override
+  set dateStr(String _dateStr) {}
+
+  @override
+  void leftTapped() {
+    setState(() {
+      widget.interface.leftTapped();
+    });
+  }
+
+  @override
+  void rightTapped() {
+    setState(() {
+      widget.interface.rightTapped();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Container(
-      child: DateHeader(widget.interface),
+      child: Column(
+        children: <Widget>[
+          DateHeader(this),
+        ],
+      ),
     );
   }
 }
