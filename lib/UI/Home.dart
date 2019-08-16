@@ -32,14 +32,35 @@ class HomeState extends State<Home> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-          "Dashboard",
+          "CarPooling",
           style: TextStyle(color: Colors.white),
           ),
-          automaticallyImplyLeading: false,
-          bottom: TabBar(tabs: widget._tabs),
-          backgroundColor: Color.fromRGBO(107, 198, 211, 1.0),
         ),
-        body: TabBarView(children: widget._tabViews),
+        body: Center(
+          child: widget.interface.getCurrentSelectWidget(),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: const<BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              title: Text("Home")
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.account_circle),
+              title: Text("Admin")
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.account_circle),
+              title: Text("Driver")
+            )
+          ],
+         currentIndex: widget.interface.currentSelectIndex,
+          onTap: (index) {
+            setState(() {
+              widget.interface.changeCurrentSelectIndex(index);
+            });
+          },
+        ),
     )
     );
   }

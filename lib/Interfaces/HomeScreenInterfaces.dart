@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:car_pooling/Model/TitleWithSelection.dart';
 
 abstract class DateHeaderUIInterface {
   String dateStr;
@@ -11,15 +12,16 @@ abstract class DashBoardUIInterface extends DateHeaderUIInterface {
   BuildContext context;
 }
 
-abstract class AdminUIInterface extends DriverUIInterface {
-
+abstract class DriverUIInterface extends DateHeaderUIInterface {
+  List<String> timings;
+  List<PeopleListItemInterface> getListOfPeople();
+  List<TitleWithSelection> studentDetails;
+  selectedItem(int index);
+  BuildContext context;
 }
 
-abstract class DriverUIInterface extends DateHeaderUIInterface {
-    List<String> timings;
-    List<PeopleListItemInterface> getListOfPeople();
+abstract class AdminUIInterface extends DriverUIInterface {
 
-    void selectedItem(int index);
 }
 
 abstract class PeopleListItemInterface {
@@ -28,6 +30,10 @@ abstract class PeopleListItemInterface {
 
 abstract class HomeUIInterface {
   List<TabInterface> tabsData;
+  int currentSelectIndex;
+  changeCurrentSelectIndex(int index);
+  Widget getCurrentSelectWidget();
+  String getCurrentSelectedTitle();
 }
 
 abstract class TabInterface {

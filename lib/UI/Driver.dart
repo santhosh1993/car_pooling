@@ -5,14 +5,13 @@ import 'package:car_pooling/Interfaces/HomeScreenInterfaces.dart';
 class Driver extends StatefulWidget {
   DriverUIInterface interface;
   Driver(this.interface);
-
   @override
   State<StatefulWidget> createState() {
-    return DriverState();
+    return _DriverState();
   }
 }
 
-class DriverState extends State<Driver> implements DateHeaderUIInterface{
+class _DriverState extends State<Driver> implements DateHeaderUIInterface {
 
   @override
   String get dateStr => widget.interface.dateStr;
@@ -36,6 +35,7 @@ class DriverState extends State<Driver> implements DateHeaderUIInterface{
 
   @override
   Widget build(BuildContext context) {
+    widget.interface.context = context;
     return Column(
       children: <Widget>[
         DateHeader(this),
@@ -59,7 +59,6 @@ class DriverState extends State<Driver> implements DateHeaderUIInterface{
 class TimingListTile extends StatelessWidget {
   final String title;
   TimingListTile(this.title);
-
   @override
   Widget build(BuildContext context) {
     return Column(

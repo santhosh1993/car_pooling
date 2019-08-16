@@ -2,7 +2,7 @@ import 'package:car_pooling/UI/Login.dart';
 import 'package:car_pooling/ServiceLayer/LoginRequest.dart';
 import 'package:flutter/material.dart';
 
-class LoginData implements LoginUIInterface,LoginRequestInterface{
+class LoginData implements LoginUIInterface, LoginRequestInterface {
   @override
   String userName = "";
   @override

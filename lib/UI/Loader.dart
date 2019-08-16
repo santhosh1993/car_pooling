@@ -6,18 +6,16 @@ class Loader {
 
   OverlayEntry _loaderOverlay;
 
-  _Loader() {
+  _Loader() {}
 
-  }
-
-  void addLoaderToContext(BuildContext context) {
+  addLoaderToContext(BuildContext context) {
     if(_loaderOverlay == null) {
       _loaderOverlay = getOverlayEntry();
       Overlay.of(context).insert(_loaderOverlay);
     }
   }
 
-  void removeLoaderFromContext() {
+  removeLoaderFromContext() {
     if(_loaderOverlay != null) {
       _loaderOverlay.remove();
     }
