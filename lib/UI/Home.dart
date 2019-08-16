@@ -4,16 +4,20 @@ import 'package:car_pooling/Interfaces/HomeScreenInterfaces.dart';
 
 class Home extends StatefulWidget{
   HomeUIInterface interface;
-  List<Tab> _tabs = [];
+  List<BottomNavigationBarItem> _tabs = [];
   List<Widget> _tabViews = [];
+  int _selectedIndex = 0;
 
   Home(HomeUIInterface interface) {
     this.interface = interface;
 
     for(int i =0; i< interface.tabsData.length ; i++) {
-      _tabs.add(Tab(
-        child: Text(interface.tabsData[i].title,style: TextStyle(color:  Colors.white),),
-      ));
+      _tabs.add(
+          BottomNavigationBarItem(
+            title: Text(interface.tabsData[i].title),
+            icon: Icon(interface.tabsData[i].iconData),
+          )
+      );
       _tabViews.add(interface.tabsData[i].tabView);
     }
   }
@@ -36,10 +40,20 @@ class HomeState extends State<Home> {
           style: TextStyle(color: Colors.white),
           ),
           automaticallyImplyLeading: false,
-          bottom: TabBar(tabs: widget._tabs),
           backgroundColor: Color.fromRGBO(107, 198, 211, 1.0),
         ),
-        body: TabBarView(children: widget._tabViews),
+        bottomNavigationBar: BottomNavigationBar(
+          items: widget._tabs,
+          currentIndex: widget._selectedIndex,
+            onTap: (int index) {
+              setState(() {
+                widget._selectedIndex = index;
+              });
+            }
+        ),
+        body: Container(
+          child: widget._tabViews[widget._selectedIndex],
+        ),
     )
     );
   }
