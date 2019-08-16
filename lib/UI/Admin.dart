@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:car_pooling/UI/DateHeader.dart';
 import 'package:car_pooling/Interfaces/HomeScreenInterfaces.dart';
 import 'package:car_pooling/UI/Driver.dart';
-
+import 'package:car_pooling/UI/PopUp.dart';
+import 'package:car_pooling/UI/CustomComponentWidgets/AddService.dart';
 class Admin extends StatefulWidget {
   AdminUIInterface interface;
   Admin(this.interface);
@@ -52,17 +52,31 @@ class AdminState extends State<Admin> implements DateHeaderUIInterface,DriverUII
     widget.interface.selectedItem(index);
   }
 
+  showPopUp() {
+    PopUp.
+    shared.
+    showPopUpOnContext(context, AddService(AddServiceData()));
+  }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Container(
-      child: Column(
-        children: <Widget>[
-          Expanded(
-          child: Driver(this),
-      ),
-        ],
-      ),
-    );
+     return Scaffold(
+       body: Column(
+         children: <Widget>[
+           Expanded(
+             child: Driver(this),
+           )
+         ],
+       ),
+       floatingActionButton: Theme(
+         data: Theme.of(context).copyWith(
+           colorScheme: Theme.of(context).colorScheme.copyWith(secondary: Colors.blue)
+         ),
+         child: FloatingActionButton(
+           onPressed: this.showPopUp,
+           child: Icon(Icons.add),
+         ),
+       ),
+     );
   }
 }
