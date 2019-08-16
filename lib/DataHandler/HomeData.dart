@@ -10,9 +10,9 @@ import 'package:car_pooling/DataHandler/DriverData.dart';
 class HomeData implements HomeUIInterface {
   @override
   List<TabInterface> tabsData = [
-    TabData(DashBoard(DashBoardData()), "Book a Seat"),
-    TabData(Admin(AdminData()), "Admin"),
-    TabData(Driver(DriverData()), "Driver"),
+    TabData(DashBoard(DashBoardData()), "Home", Icons.home),
+    TabData(Admin(AdminData()), "Admin", Icons.supervised_user_circle),
+    TabData(Driver(DriverData()), "Driver", Icons.person),
   ];
 }
 
@@ -23,5 +23,8 @@ class TabData implements TabInterface {
   @override
   String title;
 
-  TabData(this.tabView,this.title);
+  TabData(this.tabView,this.title,this.iconData);
+
+  @override
+  IconData iconData;
 }
