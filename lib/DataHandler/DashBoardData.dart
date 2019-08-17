@@ -1,7 +1,19 @@
 import 'package:car_pooling/Interfaces/HomeScreenInterfaces.dart';
 import 'package:flutter/material.dart';
+import 'package:car_pooling/UI/Home.dart';
 
 class DashBoardData implements DashBoardUIInterface{
+
+  DashBoard dashboard;
+
+  DashBoardData() {
+    dashboard = DashBoard(this);
+  }
+
+  Widget getWidget() {
+    return dashboard;
+  }
+
   @override
   BuildContext context;
 

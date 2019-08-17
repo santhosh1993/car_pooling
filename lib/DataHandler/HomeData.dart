@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:car_pooling/UI/Home.dart';
 import 'package:car_pooling/DataHandler/DashBoardData.dart';
-import 'package:car_pooling/UI/Admin.dart';
 import 'package:car_pooling/DataHandler/AdminData.dart';
-import 'package:car_pooling/UI/Driver.dart';
 import 'package:car_pooling/Interfaces/HomeScreenInterfaces.dart';
 import 'package:car_pooling/DataHandler/DriverData.dart';
 
 class HomeData implements HomeUIInterface {
+
+  Home home;
+
+  HomeData(){
+    home = Home(this);
+  }
+
+  Widget getWidget(){
+    return home;
+  }
+
   @override
   List<TabInterface> tabsData = [
-    TabData(DashBoard(DashBoardData()), "Book a Seat"),
-    TabData(Admin(AdminData()), "Admin"),
-    TabData(Driver(DriverData()), "Driver"),
+    TabData(DashBoardData().getWidget(), "Home"),
+    TabData(AdminData().getWidget(), "Admin"),
+    TabData(DriverData().getWidget(), "Driver"),
   ];
 }
 

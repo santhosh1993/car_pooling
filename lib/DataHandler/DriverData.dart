@@ -1,10 +1,21 @@
 import 'package:car_pooling/Interfaces/HomeScreenInterfaces.dart';
+import 'package:flutter/material.dart';
+import 'package:car_pooling/UI/Driver.dart';
 
 class DriverData implements DriverUIInterface {
   int selectedIndex = 0;
   List<String> dateStrList = ["05 / 09 / 19","06 / 09 / 19","07 / 09 / 19","08 / 09 / 19"];
   List<List<String>> timingsList = [["05: 30 pm" , "06: 30 pm"],["06: 30 pm"],["07: 30 pm" , "08: 30 pm"],[]];
+  Widget driver;
 
+  DriverData() {
+      driver = Driver(this);
+  }
+
+  Widget getWidget(){
+    return driver;
+  }
+  
   @override
   List<String> get timings => timingsList[selectedIndex];
 

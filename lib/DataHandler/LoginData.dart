@@ -10,6 +10,16 @@ class LoginData implements LoginUIInterface,LoginRequestInterface{
   @override
   BuildContext context;
 
+  Login login;
+
+  LoginData() {
+    login = Login(this);
+  }
+
+  Widget getWidget(){
+    return login;
+  }
+
   @override
   void loginButtonTapped() {
     print(userName + "  " + password);
@@ -26,8 +36,6 @@ class LoginData implements LoginUIInterface,LoginRequestInterface{
   }
 
   void loginTheUser() {
-    Navigator.pushNamed(context, '/Home');
-
-    //LoginRequest(this).login();
+      LoginRequest(this).login();
   }
 }
