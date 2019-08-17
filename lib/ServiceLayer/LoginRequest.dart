@@ -13,11 +13,11 @@ class LoginRequest extends BaseRequest {
   final LoginRequestInterface interface;
   LoginRequest(this.interface);
 
-  void login() {
-    getJson();
+  Future<Map> login() async{
+    return await getJson();
   }
 
-  void getJson() async {
+  Future<Map> getJson() async {
     String apiURL = baseUrl + "User/login/";
 
     Map<String, String> body = {
@@ -26,6 +26,7 @@ class LoginRequest extends BaseRequest {
     };
 
     http.Response response = await http.post(apiURL, headers: headers, body: body);
+    return json.decode(response.body);
     interface.result(json.decode(response.body));
   }
 }
