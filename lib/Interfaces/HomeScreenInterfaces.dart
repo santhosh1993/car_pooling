@@ -33,6 +33,7 @@ abstract class HomeUIInterface {
 abstract class TabInterface {
   String title;
   Widget tabView;
+  IconData iconData;
 }
 
 abstract class DashBoardListTileInterface {

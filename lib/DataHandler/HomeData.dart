@@ -19,9 +19,9 @@ class HomeData implements HomeUIInterface {
 
   @override
   List<TabInterface> tabsData = [
-    TabData(DashBoardData().getWidget(), "Home"),
-    TabData(AdminData().getWidget(), "Admin"),
-    TabData(DriverData().getWidget(), "Driver"),
+    TabData(DashBoardData().getWidget(), "Home", Icons.home),
+    TabData(AdminData().getWidget(), "Admin", Icons.supervised_user_circle),
+    TabData(DriverData().getWidget(), "Driver", Icons.person),
   ];
 }
 
@@ -32,5 +32,8 @@ class TabData implements TabInterface {
   @override
   String title;
 
-  TabData(this.tabView,this.title);
+  TabData(this.tabView,this.title,this.iconData);
+
+  @override
+  IconData iconData;
 }
