@@ -29,8 +29,8 @@ class LoginData implements LoginUIInterface,LoginRequestInterface{
   @override
   void result(Map json) {
     // TODO: implement result
-    print(json["userName"]);
-    if (json["userName"] == null){
+    print(json["user_name"]);
+    if (json["user_name"] != null){
       Navigator.pushNamed(context, '/Home');
     }
   }

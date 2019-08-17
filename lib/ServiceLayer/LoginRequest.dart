@@ -18,10 +18,10 @@ class LoginRequest extends BaseRequest {
   }
 
   void getJson() async {
-    String apiURL = "http://10.71.165.74:8000/login/";
+    String apiURL = baseUrl + "User/login/";
 
     Map<String, String> body = {
-      "userName": interface.userName,
+      "email_id": interface.userName,
       "password": interface.password,
     };
 
