@@ -6,7 +6,6 @@ import 'package:car_pooling/ServiceLayer/BaseRequest.dart';
 abstract class LoginRequestInterface {
   String userName;
   String password;
-  void result(Map json);
 }
 
 class LoginRequest extends BaseRequest {
@@ -14,10 +13,6 @@ class LoginRequest extends BaseRequest {
   LoginRequest(this.interface);
 
   Future<Map> login() async{
-    return await getJson();
-  }
-
-  Future<Map> getJson() async {
     String apiURL = baseUrl + "User/login/";
 
     Map<String, String> body = {
@@ -27,6 +22,5 @@ class LoginRequest extends BaseRequest {
 
     http.Response response = await http.post(apiURL, headers: headers, body: body);
     return json.decode(response.body);
-    interface.result(json.decode(response.body));
   }
 }

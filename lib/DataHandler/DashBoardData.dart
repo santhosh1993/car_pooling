@@ -1,13 +1,23 @@
 import 'package:car_pooling/Interfaces/HomeScreenInterfaces.dart';
 import 'package:flutter/material.dart';
 import 'package:car_pooling/UI/Home.dart';
+import 'package:car_pooling/ServiceLayer/SeatAvailabilityRequest.dart';
+import 'package:car_pooling/UI/Loader.dart';
 
-class DashBoardData implements DashBoardUIInterface{
+class DashBoardData implements DashBoardUIInterface, SeatAvailabilityRequestInterface{
 
   DashBoard dashboard;
 
   DashBoardData() {
     dashboard = DashBoard(this);
+    updateData();
+  }
+
+  updateData() async {
+    Loader.shared.addLoaderToContext(context);
+    List data = await SeatAvailabilityRequest(this).getSeatAvailabilityList();
+    print(data);
+    Loader.shared.removeLoaderFromContext();
   }
 
   Widget getWidget() {
