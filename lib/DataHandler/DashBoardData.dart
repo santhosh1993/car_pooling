@@ -4,6 +4,7 @@ import 'package:car_pooling/UI/Home.dart';
 import 'package:car_pooling/ServiceLayer/SeatAvailabilityRequest.dart';
 import 'package:car_pooling/UI/Loader.dart';
 import 'package:car_pooling/Model/User.dart';
+import 'package:car_pooling/Model/Service.dart';
 
 class DashBoardData implements DashBoardUIInterface, SeatAvailabilityRequestInterface{
 
@@ -18,6 +19,7 @@ class DashBoardData implements DashBoardUIInterface, SeatAvailabilityRequestInte
     Loader.shared.addLoaderToContext(context);
     List data = await SeatAvailabilityRequest(this).getSeatAvailabilityList();
     print(User.shared.userName);
+    ServicesList(data);
     print(data);
     Loader.shared.removeLoaderFromContext();
   }
