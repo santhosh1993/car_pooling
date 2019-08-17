@@ -2,6 +2,7 @@ import 'package:car_pooling/UI/Login.dart';
 import 'package:car_pooling/ServiceLayer/LoginRequest.dart';
 import 'package:flutter/material.dart';
 import 'package:car_pooling/UI/Loader.dart';
+import 'package:car_pooling/Model/User.dart';
 
 class LoginData implements LoginUIInterface,LoginRequestInterface{
   @override
@@ -30,7 +31,8 @@ class LoginData implements LoginUIInterface,LoginRequestInterface{
   @override
   void result(Map json) {
     // TODO: implement result
-    print(json["user_name"]);
+    print(json);
+    User.updateUser(json);
     Loader.shared.removeLoaderFromContext();
     if (json["user_name"] != null){
       Navigator.pushNamed(context, '/Home');
