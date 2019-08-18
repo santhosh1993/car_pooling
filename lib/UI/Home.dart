@@ -96,13 +96,22 @@ class DashBoardState extends State<DashBoard> implements DateHeaderUIInterface{
     return Column(children: <Widget>[
       DateHeader(this),
       Expanded(
-        child: ListView.builder(
-            itemCount: widget.interface.items.length,
-            itemBuilder: (context, index) {
-              return DashBoardListTile(widget.interface.items[index]);
-            }),
+        child: getList(),
       ),
     ]);
+  }
+
+  Widget getList() {
+    if (widget.interface.items.length > 0) {
+      return ListView.builder(
+          itemCount: widget.interface.items.length,
+          itemBuilder: (context, index) {
+            return DashBoardListTile(widget.interface.items[index]);
+          });
+    }
+    return Center(
+      child: Text("No Data available...."),
+    );
   }
 }
 
