@@ -17,6 +17,8 @@ class DashBoardData implements DashBoardUIInterface, SeatAvailabilityRequestInte
   List<String> dateStrList = [];
 
   List<List<DashBoardTileData>> listOfItems = [];
+  @override
+  DashboardUICallback callback;
 
   @override
   String get dateStr {
@@ -26,26 +28,17 @@ class DashBoardData implements DashBoardUIInterface, SeatAvailabilityRequestInte
     return "";
   }
 
-  @override
-  List<DashBoardListTileInterface>  get items {
-    if (listOfItems.length > selectedIndex){
-      return listOfItems[selectedIndex];
-    }
-    return [];
-  }
-
   DashBoardData() {
     dashboard = DashBoard(this);
     updateData();
   }
 
   updateData() async {
-    Loader.shared.addLoaderToContext(context);
     List data = await SeatAvailabilityRequest(this).getSeatAvailabilityList();
     ServicesList services = ServicesList(data);
     Map<String,Map<String,List<Service>>> groupedData = services.groupByDateAndByTime();
     updateVariables(groupedData);
-    Loader.shared.removeLoaderFromContext();
+    callback.updateData(listOfItems[selectedIndex]);
   }
 
   updateVariables(Map<String,Map<String,List<Service>>> services){
@@ -85,15 +78,11 @@ class DashBoardData implements DashBoardUIInterface, SeatAvailabilityRequestInte
   }
 
   @override
-  set items(List<DashBoardListTileInterface> _items) {
-    // TODO: implement items
-  }
-
-  @override
   void leftTapped() {
     // TODO: implement leftTapped
     if(selectedIndex != 0){
       selectedIndex = selectedIndex - 1;
+      callback.updateData(listOfItems[selectedIndex]);
     }
   }
 
@@ -102,6 +91,7 @@ class DashBoardData implements DashBoardUIInterface, SeatAvailabilityRequestInte
     // TODO: implement rightTapped
     if(selectedIndex != (dateStrList.length - 1)){
       selectedIndex = selectedIndex + 1;
+      callback.updateData(listOfItems[selectedIndex]);
     }
   }
 }
@@ -114,7 +104,7 @@ class DashBoardTileData implements DashBoardListTileInterface {
   String time;
 
   @override
-  int selectedIndex = 0;
+  int selectedIndex = -1;
   
   List<Service> _services;
   

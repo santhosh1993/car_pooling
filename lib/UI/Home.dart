@@ -63,13 +63,15 @@ class DashBoard extends StatefulWidget {
   DashBoardUIInterface interface;
   DashBoard(this.interface);
 
+  List<DashBoardListTileInterface> _items = [];
+
   @override
   State<StatefulWidget> createState() {
     return DashBoardState();
   }
 }
 
-class DashBoardState extends State<DashBoard> implements DateHeaderUIInterface{
+class DashBoardState extends State<DashBoard> implements DateHeaderUIInterface, DashboardUICallback{
 
   @override
   String get dateStr => widget.interface.dateStr;
@@ -93,6 +95,9 @@ class DashBoardState extends State<DashBoard> implements DateHeaderUIInterface{
 
   @override
   Widget build(BuildContext context) {
+    widget.interface.context = context;
+    widget.interface.callback = this;
+
     return Column(children: <Widget>[
       DateHeader(this),
       Expanded(
@@ -102,16 +107,23 @@ class DashBoardState extends State<DashBoard> implements DateHeaderUIInterface{
   }
 
   Widget getList() {
-    if (widget.interface.items.length > 0) {
+    if (widget._items.length > 0) {
       return ListView.builder(
-          itemCount: widget.interface.items.length,
+          itemCount: widget._items.length,
           itemBuilder: (context, index) {
-            return DashBoardListTile(widget.interface.items[index]);
+            return DashBoardListTile(widget._items[index]);
           });
     }
     return Center(
       child: Text("No Data available...."),
     );
+  }
+
+  @override
+  updateData(List<DashBoardListTileInterface> items) {
+    setState(() {
+      widget._items = items;
+    });
   }
 }
 

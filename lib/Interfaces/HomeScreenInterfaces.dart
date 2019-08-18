@@ -7,8 +7,12 @@ abstract class DateHeaderUIInterface {
 }
 
 abstract class DashBoardUIInterface extends DateHeaderUIInterface {
-  List<DashBoardListTileInterface> items;
   BuildContext context;
+  DashboardUICallback callback;
+}
+
+abstract class DashboardUICallback {
+  updateData(List<DashBoardListTileInterface> items);
 }
 
 abstract class AdminUIInterface extends DriverUIInterface {
