@@ -30,13 +30,9 @@ class DashBoardData implements DashBoardUIInterface, SeatAvailabilityRequestInte
 
   DashBoardData() {
     dashboard = DashBoard(this);
-    updateData();
   }
 
-  updateData() async {
-    List data = await SeatAvailabilityRequest(this).getSeatAvailabilityList();
-    ServicesList services = ServicesList(data);
-    Map<String,Map<String,List<Service>>> groupedData = services.groupByDateAndByTime();
+  updateData(Map<String,Map<String,List<Service>>> groupedData)  {
     updateVariables(groupedData);
     callback.updateData(listOfItems[selectedIndex]);
   }
