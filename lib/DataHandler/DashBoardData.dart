@@ -10,6 +10,20 @@ class DashBoardData implements DashBoardUIInterface, SeatAvailabilityRequestInte
 
   DashBoard dashboard;
 
+  @override
+  BuildContext context;
+
+  int selectedIndex = 0;
+  List<String> dateStrList = [];
+
+  List<List<DashBoardTileData>> listOfItems = [];
+  @override
+  String get dateStr => dateStrList[selectedIndex];
+  @override
+  List<DashBoardListTileInterface>  get items {
+    return listOfItems[selectedIndex];
+  }
+
   DashBoardData() {
     dashboard = DashBoard(this);
     updateData();
@@ -18,37 +32,41 @@ class DashBoardData implements DashBoardUIInterface, SeatAvailabilityRequestInte
   updateData() async {
     Loader.shared.addLoaderToContext(context);
     List data = await SeatAvailabilityRequest(this).getSeatAvailabilityList();
-    print(User.shared.userName);
     ServicesList services = ServicesList(data);
-    print(services.groupByDateAndByTime());
+    Map<String,Map<String,List<Service>>> groupedData = services.groupByDateAndByTime();
+    updateVariables(groupedData);
     Loader.shared.removeLoaderFromContext();
+  }
+
+  updateVariables(Map<String,Map<String,List<Service>>> services){
+    List<String> keys = services.keys.toList();
+
+    keys.sort((str1,str2) {
+      return str1.compareTo(str2);
+    });
+
+    dateStrList = keys;
+
+    for (int i = 0 ;i<keys.length; i++) {
+      Map timesServices = services[keys[i]];
+      List<String> timeKeys = timesServices.keys.toList();
+      timeKeys.sort((str1,str2) {
+        return str1.compareTo(str2);
+      });
+      List<DashBoardTileData> list = [];
+
+      for (int j = 0 ; j < timeKeys.length; j++) {
+        list.add(DashBoardTileData(timesServices[timeKeys[j]], timeKeys[j]));
+      }
+
+      listOfItems.add(list);
+    }
+
+    print(listOfItems);
   }
 
   Widget getWidget() {
     return dashboard;
-  }
-
-  @override
-  BuildContext context;
-
-  int selectedIndex = 0;
-  List<String> dateStrList = ["05 / 09 / 19","06 / 09 / 19","07 / 09 / 19","08 / 09 / 19"];
-
-  List<List<DashBoardListTileInterface>> listOfItems = [[
-    DashBoardTileData(1,"05:30 pm"),
-    DashBoardTileData(-1,"06:30 pm"),
-  ],[
-    DashBoardTileData(1,"05:45 pm"),
-  ],[
-    DashBoardTileData(0,"05:50 pm"),
-    DashBoardTileData(-1,"05:55 pm"),
-  ],[
-  ]];
-  @override
-  String get dateStr => dateStrList[selectedIndex];
-  @override
-  List<DashBoardListTileInterface>  get items {
-    return listOfItems[selectedIndex];
   }
 
   @override
@@ -80,15 +98,28 @@ class DashBoardData implements DashBoardUIInterface, SeatAvailabilityRequestInte
 
 class DashBoardTileData implements DashBoardListTileInterface {
   @override
-  List<String> names = ["Metro", "MMTS"];
+  List<String> names = [];
 
   @override
   String time;
 
   @override
-  int selectedIndex;
+  int selectedIndex = 0;
+  
+  List<Service> _services;
+  
+  DashBoardTileData(List<Service> services, String time){
+    this.time = time;
+    this._services = services;
 
-  DashBoardTileData(this.selectedIndex,this.time);
+    this._services.sort((service_1,service_2) {
+      return service_1.type.serviceType.compareTo(service_2.type.serviceType);
+    });
+    
+    names = services.map((service) {
+      return service.type.serviceType;
+    }).toList();
+  }
 
   @override
   void selectedName(int index) {

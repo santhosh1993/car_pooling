@@ -68,8 +68,8 @@ class ServicesList{
     }
   }
 
-  Map groupByDateAndByTime() {
-    Map dates = {};
+  Map<String,Map<String,List<Service>>> groupByDateAndByTime() {
+    Map<String,Map<String,List<Service>>> dates = {};
     for (int i = 0; i< services.length; i++){
       Service service = services[i];
       dates[service.date] = _getMapsWithTime((dates[service.date] ?? {}), service);
@@ -78,8 +78,8 @@ class ServicesList{
     return dates;
   }
 
-  Map _getMapsWithTime(Map services, Service service){
-    List timeServices = services[service.time] ?? [];
+  Map<String,List<Service>> _getMapsWithTime(Map<String,List<Service>> services, Service service){
+    List<Service> timeServices = services[service.time] ?? [];
     timeServices.add(service);
     services[service.time] = timeServices;
     return services;
