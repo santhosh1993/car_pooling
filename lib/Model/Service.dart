@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:car_pooling/Model/User.dart';
 
 class Service {
   ServiceType type;
@@ -16,7 +17,11 @@ class Service {
     List users = json["users"];
 
     for(int i = 0; i<users.length; i++) {
-       bookedUsers.add(UserDetails(users[i]));
+       UserDetails details = UserDetails(users[i]);
+       bookedUsers.add(details);
+       if (details.userId == User.shared.userId) {
+         User.shared.addService(this);
+       }
     }
 
     updateDateAndTime(json["date_time"]);
@@ -27,9 +32,6 @@ class Service {
     var timeFormatter = DateFormat('hh:mm a');
     this.date = dateFormatter.format(DateTime.parse(dateTime));
     this.time = timeFormatter.format(DateTime.parse(dateTime));
-    print(date);
-    print(time);
-    print("------");
   }
 }
 
@@ -61,6 +63,7 @@ class ServicesList{
   List<Service> services = [];
 
   ServicesList(List json) {
+    User.shared.resetServices();
     for(int i = 0; i < json.length; i++){
       Map data = json[i];
       Service service  = Service(data);
