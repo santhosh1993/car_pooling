@@ -17,11 +17,21 @@ class DashBoardData implements DashBoardUIInterface, SeatAvailabilityRequestInte
   List<String> dateStrList = [];
 
   List<List<DashBoardTileData>> listOfItems = [];
+
   @override
-  String get dateStr => dateStrList[selectedIndex];
+  String get dateStr {
+    if (dateStrList.length > selectedIndex) {
+      return dateStrList[selectedIndex];
+    }
+    return "";
+  }
+
   @override
   List<DashBoardListTileInterface>  get items {
-    return listOfItems[selectedIndex];
+    if (listOfItems.length > selectedIndex){
+      return listOfItems[selectedIndex];
+    }
+    return [];
   }
 
   DashBoardData() {
