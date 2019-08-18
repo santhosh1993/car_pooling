@@ -115,7 +115,14 @@ class DashBoardTileData implements DashBoardListTileInterface {
     this._services.sort((service_1,service_2) {
       return service_1.type.serviceType.compareTo(service_2.type.serviceType);
     });
-    
+
+    names = [];
+    for(int i = 0 ; i < services.length; i++) {
+      if (User.shared.bookedServices.contains(services[i])){
+          selectedIndex = i;
+      }
+      names.add(services[i].type.serviceType);
+    }
     names = services.map((service) {
       return service.type.serviceType;
     }).toList();
