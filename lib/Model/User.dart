@@ -9,7 +9,7 @@ class User {
   String userId;
   String emailId;
 
-  List<Service> userBookedServices = [];
+  List<Service> bookedServices = [];
 
   static updateUser(Map loginResponse) {
     shared.userName = "${loginResponse["user_name"]}";
@@ -20,10 +20,10 @@ class User {
   }
 
   addService(Service service) {
-    userBookedServices.add(service);
+    bookedServices.add(service);
   }
 
   resetServices() {
-    userBookedServices = [];
+    bookedServices = [];
   }
 }
