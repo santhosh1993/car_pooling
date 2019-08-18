@@ -38,6 +38,8 @@ class HomeData implements HomeUIInterface, SeatAvailabilityRequestInterface {
 
   updateTheChildWidgets() {
     _dashBoardData.updateData(groupedData);
+    _driverData.updateData(groupedData);
+    _dashBoardData.updateData(groupedData);
   }
 
   Widget getWidget(){

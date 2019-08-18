@@ -1,6 +1,7 @@
 import 'package:car_pooling/Interfaces/HomeScreenInterfaces.dart';
 import 'package:flutter/material.dart';
 import 'package:car_pooling/UI/Driver.dart';
+import 'package:car_pooling/Model/Service.dart';
 
 class DriverData implements DriverUIInterface {
   int selectedIndex = 0;
@@ -12,7 +13,15 @@ class DriverData implements DriverUIInterface {
       driver = Driver(this);
   }
 
-  Widget getWidget(){
+  updateData(Map<String,Map<String,List<Service>>> groupedData) {
+    updateVariables(groupedData);
+  }
+
+  updateVariables(Map<String,Map<String,List<Service>>> services) {
+    
+  }
+
+    Widget getWidget(){
     return driver;
   }
   
