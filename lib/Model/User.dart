@@ -26,4 +26,10 @@ class User {
   resetServices() {
     bookedServices = [];
   }
+
+  removeService(Service service){
+    if(bookedServices.contains(service)) {
+      bookedServices.remove(service);
+    }
+  }
 }

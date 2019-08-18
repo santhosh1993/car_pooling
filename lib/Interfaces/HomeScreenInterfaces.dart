@@ -44,6 +44,10 @@ abstract class DashBoardListTileInterface {
   String time;
   List<String> names;
   int selectedIndex;
-
+  DashBoardListTileUICallback callback;
   void selectedName(int index);
+}
+
+abstract class DashBoardListTileUICallback {
+  updateData(List<String> names);
 }

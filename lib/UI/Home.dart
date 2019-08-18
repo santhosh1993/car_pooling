@@ -129,21 +129,30 @@ class DashBoardState extends State<DashBoard> implements DateHeaderUIInterface, 
 
 class DashBoardListTile extends StatefulWidget {
   DashBoardListTileInterface interface;
-
-  DashBoardListTile(this.interface);
+  List<String> _names = [];
+  DashBoardListTile(DashBoardListTileInterface interface) {
+    this.interface = interface;
+    _names = interface.names;
+  }
 
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return DashBoardListTileState();
   }
 }
 
-class DashBoardListTileState extends State<DashBoardListTile> {
+class DashBoardListTileState extends State<DashBoardListTile> implements DashBoardListTileUICallback {
+
+  @override
+  updateData(List<String> names) {
+    setState(() {
+      widget._names = names;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    widget.interface.callback = this;
     return Container(
       child: Column(
         children: <Widget>[
@@ -166,7 +175,7 @@ class DashBoardListTileState extends State<DashBoardListTile> {
                   height: 30.0,
                   child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: widget.interface.names.length,
+                      itemCount: widget._names.length,
                       itemBuilder: (context, index) {
                         return Container(
                             margin: EdgeInsets.only(left: 10.0),
@@ -182,12 +191,10 @@ class DashBoardListTileState extends State<DashBoardListTile> {
                                         : Colors.grey),
                               ),
                               onPressed: () {
-                                setState(() {
                                   widget.interface.selectedName(index);
-                                });
                               },
                               child: Text(
-                                widget.interface.names[index],
+                                widget._names[index],
                                 style: TextStyle(
                                     color: (widget.interface.selectedIndex == index)
                                         ? Colors.white

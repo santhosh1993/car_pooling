@@ -98,6 +98,9 @@ class DashBoardData implements DashBoardUIInterface, SeatAvailabilityRequestInte
 
 class DashBoardTileData implements DashBoardListTileInterface {
   @override
+  DashBoardListTileUICallback callback;
+
+  @override
   List<String> names = [];
 
   @override
@@ -115,21 +118,43 @@ class DashBoardTileData implements DashBoardListTileInterface {
     this._services.sort((service_1,service_2) {
       return service_1.type.serviceType.compareTo(service_2.type.serviceType);
     });
+    updateUserServices(this._services);
+  }
 
+  updateUserServices(List<Service> services) {
     names = [];
     for(int i = 0 ; i < services.length; i++) {
       if (User.shared.bookedServices.contains(services[i])){
-          selectedIndex = i;
+        selectedIndex = i;
       }
       names.add(services[i].type.serviceType);
     }
     names = services.map((service) {
       return service.type.serviceType;
     }).toList();
+
+    if (callback != null) {
+      callback.updateData(names);
+    }
   }
 
   @override
   void selectedName(int index) {
-    selectedIndex = (selectedIndex == index) ? -1 : index;
+    cancelTheBooking();
+    if (selectedIndex != index){
+      createTheBooking(index);
+    }
+    selectedIndex = -1;
+    updateUserServices(_services);
+  }
+
+  void cancelTheBooking() {
+    if (selectedIndex >=0) {
+      User.shared.removeService(_services[selectedIndex]);
+    }
+  }
+
+  void createTheBooking(int index) {
+    User.shared.bookedServices.add(_services[index]);
   }
 }
