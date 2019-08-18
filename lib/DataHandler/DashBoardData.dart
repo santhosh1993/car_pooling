@@ -19,8 +19,8 @@ class DashBoardData implements DashBoardUIInterface, SeatAvailabilityRequestInte
     Loader.shared.addLoaderToContext(context);
     List data = await SeatAvailabilityRequest(this).getSeatAvailabilityList();
     print(User.shared.userName);
-    ServicesList(data);
-    print(data);
+    ServicesList services = ServicesList(data);
+    print(services.groupByDateAndByTime());
     Loader.shared.removeLoaderFromContext();
   }
 

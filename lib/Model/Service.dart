@@ -67,4 +67,21 @@ class ServicesList{
       this.services.add(service);
     }
   }
+
+  Map groupByDateAndByTime() {
+    Map dates = {};
+    for (int i = 0; i< services.length; i++){
+      Service service = services[i];
+      dates[service.date] = _getMapsWithTime((dates[service.date] ?? {}), service);
+    }
+
+    return dates;
+  }
+
+  Map _getMapsWithTime(Map services, Service service){
+    List timeServices = services[service.time] ?? [];
+    timeServices.add(service);
+    services[service.time] = timeServices;
+    return services;
+  }
 }
