@@ -4,6 +4,7 @@ import 'package:car_pooling/DataHandler/DashBoardData.dart';
 import 'package:car_pooling/Interfaces/HomeScreenInterfaces.dart';
 import 'package:car_pooling/ServiceLayer/SeatAvailabilityRequest.dart';
 import 'package:car_pooling/Model/Service.dart';
+import 'package:car_pooling/DataHandler/ProfileData.dart';
 
 class HomeData implements HomeUIInterface, SeatAvailabilityRequestInterface {
 
@@ -12,12 +13,13 @@ class HomeData implements HomeUIInterface, SeatAvailabilityRequestInterface {
 
   Home home;
   DashBoardData _dashBoardData = DashBoardData();
+  ProfileData _profileData = ProfileData();
   Map<String,Map<String,List<Service>>> groupedData = {};
 
   HomeData(){
     tabsData = [
       TabData(_dashBoardData.getWidget(), "Home", Icons.home),
-      TabData(_dashBoardData.getWidget(), "Profile", Icons.person),
+      TabData(_profileData.getWidget(), "Profile", Icons.person),
     ];
     home = Home(this);
 
