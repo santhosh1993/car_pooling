@@ -15,18 +15,6 @@ abstract class DashboardUICallback {
   updateData(List<DashBoardListTileInterface> items);
 }
 
-abstract class AdminUIInterface extends DriverUIInterface {
-
-}
-
-abstract class DriverUIInterface extends DashBoardUIInterface {
-
-}
-
-abstract class PeopleListItemInterface {
-
-}
-
 abstract class HomeUIInterface {
   List<TabInterface> tabsData;
 }
