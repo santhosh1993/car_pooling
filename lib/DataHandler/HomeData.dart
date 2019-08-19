@@ -16,8 +16,6 @@ class HomeData implements HomeUIInterface, SeatAvailabilityRequestInterface {
   ProfileData _profileData = ProfileData();
   Map<String,Map<String,List<Service>>> groupedData = {};
 
-  // Home Data Constructor
-  
   HomeData(){
     tabsData = [
       TabData(_dashBoardData.getWidget(), "Home", Icons.home),
