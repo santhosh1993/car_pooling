@@ -31,6 +31,10 @@ class Home extends StatefulWidget{
 class HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
+
+    widget.interface.context = context;
+    WidgetsBinding.instance.addPostFrameCallback(widget.interface.layoutLoadingFinished());
+
     return DefaultTabController(
       length: widget.interface.tabsData.length,
       child: Scaffold(
