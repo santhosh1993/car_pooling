@@ -14,15 +14,12 @@ class HomeData implements HomeUIInterface, SeatAvailabilityRequestInterface {
 
   Home home;
   DashBoardData _dashBoardData = DashBoardData();
-  DriverData _driverData = DriverData();
-  AdminData _adminData = AdminData();
   Map<String,Map<String,List<Service>>> groupedData = {};
 
   HomeData(){
     tabsData = [
       TabData(_dashBoardData.getWidget(), "Home", Icons.home),
-      TabData(_adminData.getWidget(), "Admin", Icons.supervised_user_circle),
-      TabData(_driverData.getWidget(), "Driver", Icons.person),
+      TabData(_dashBoardData.getWidget(), "Profile", Icons.person),
     ];
     home = Home(this);
 
@@ -37,8 +34,6 @@ class HomeData implements HomeUIInterface, SeatAvailabilityRequestInterface {
   }
 
   updateTheChildWidgets() {
-    _dashBoardData.updateData(groupedData);
-    _driverData.updateData(groupedData);
     _dashBoardData.updateData(groupedData);
   }
 

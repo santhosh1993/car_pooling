@@ -19,11 +19,8 @@ abstract class AdminUIInterface extends DriverUIInterface {
 
 }
 
-abstract class DriverUIInterface extends DateHeaderUIInterface {
-    List<String> timings;
-    List<PeopleListItemInterface> getListOfPeople();
+abstract class DriverUIInterface extends DashBoardUIInterface {
 
-    void selectedItem(int index);
 }
 
 abstract class PeopleListItemInterface {

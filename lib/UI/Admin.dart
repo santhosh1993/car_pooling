@@ -13,44 +13,7 @@ class Admin extends StatefulWidget {
   }
 }
 
-class AdminState extends State<Admin> implements DateHeaderUIInterface,DriverUIInterface {
-  @override
-  String get dateStr => widget.interface.dateStr;
-
-  @override
-  set dateStr(String _dateStr) {}
-
-  @override
-  void leftTapped() {
-    setState(() {
-      widget.interface.leftTapped();
-    });
-  }
-
-  @override
-  void rightTapped() {
-    setState(() {
-      widget.interface.rightTapped();
-    });
-  }
-
-  @override
-  List<String> get timings => widget.interface.timings;
-
-  @override
-  set timings(List<String> _timings) {
-
-  }
-
-  @override
-  List<PeopleListItemInterface> getListOfPeople() {
-    return widget.interface.getListOfPeople();
-  }
-
-  @override
-  void selectedItem(int index) {
-    widget.interface.selectedItem(index);
-  }
+class AdminState extends State<Admin> {
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +22,7 @@ class AdminState extends State<Admin> implements DateHeaderUIInterface,DriverUII
       child: Column(
         children: <Widget>[
           Expanded(
-          child: Driver(this),
+          child: Text("Admin"),
       ),
         ],
       ),
