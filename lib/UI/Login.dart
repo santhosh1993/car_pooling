@@ -110,7 +110,6 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return TextField(
       style: TextStyle(color: Colors.white),
       controller: _controller,
