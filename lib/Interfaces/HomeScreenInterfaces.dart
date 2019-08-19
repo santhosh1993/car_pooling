@@ -30,6 +30,7 @@ abstract class DashBoardListTileInterface {
   List<String> names;
   int selectedIndex;
   DashBoardListTileUICallback callback;
+  BuildContext context;
   void selectedName(int index);
 }
 

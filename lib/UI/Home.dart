@@ -153,6 +153,7 @@ class DashBoardListTileState extends State<DashBoardListTile> implements DashBoa
   @override
   Widget build(BuildContext context) {
     widget.interface.callback = this;
+    widget.interface.context = context;
     return Container(
       child: Column(
         children: <Widget>[

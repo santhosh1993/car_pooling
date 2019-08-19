@@ -5,6 +5,7 @@ import 'package:car_pooling/ServiceLayer/SeatAvailabilityRequest.dart';
 import 'package:car_pooling/UI/Loader.dart';
 import 'package:car_pooling/Model/User.dart';
 import 'package:car_pooling/Model/Service.dart';
+import 'package:car_pooling/DataHandler/TripDetailData.dart';
 
 class DashBoardData implements DashBoardUIInterface, SeatAvailabilityRequestInterface{
 
@@ -93,6 +94,10 @@ class DashBoardData implements DashBoardUIInterface, SeatAvailabilityRequestInte
 }
 
 class DashBoardTileData implements DashBoardListTileInterface {
+
+  @override
+  BuildContext context;
+
   @override
   DashBoardListTileUICallback callback;
 
@@ -136,12 +141,28 @@ class DashBoardTileData implements DashBoardListTileInterface {
 
   @override
   void selectedName(int index) {
+    if(User.shared.userType.toLowerCase() == 'e'){
+      updateTheBooking(index);
+    }
+    else{
+      pushToDetailPage(_services[index]);
+    }
+  }
+
+  updateTheBooking(int index) {
     cancelTheBooking();
     if (selectedIndex != index){
       createTheBooking(index);
     }
     selectedIndex = -1;
     updateUserServices(_services);
+  }
+
+  pushToDetailPage(Service service){
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => TripDetailData(service).getWidget()),
+    );
   }
 
   void cancelTheBooking() {
