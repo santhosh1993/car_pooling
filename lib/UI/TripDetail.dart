@@ -2,10 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:car_pooling/Interfaces/TripDetailInterfaces.dart';
 
 class TripDetail extends StatefulWidget {
+  final TextEditingController _maxBookingcontroller = TextEditingController();
+  final TextEditingController _totalBookingcontroller = TextEditingController();
   TripDetailUIInterface interface;
-  List<String> _items = ["Santhosh","Santhosh","Santhosh","Santhosh","Santhosh","Santhosh","Santhosh","Santhosh","Santhosh","Santhosh","Santhosh","Santhosh","Santhosh","Santhosh","Santhosh","Santhosh",];
+  List<TripDetailListTileInterface> _items = [];
 
-  TripDetail(this.interface);
+  TripDetail(TripDetailUIInterface interface, List<TripDetailListTileInterface> items) {
+    this.interface = interface;
+    _items = items;
+    updateControllerValues();
+  }
+
+  updateControllerValues() {
+    _maxBookingcontroller.value =
+        TextEditingValue(text: interface.maxBookings.toString());
+    _totalBookingcontroller.value =
+        TextEditingValue(text: interface.totalBookings.toString());
+  }
 
   @override
   State<StatefulWidget> createState() {
@@ -13,78 +26,94 @@ class TripDetail extends StatefulWidget {
   }
 }
 
-class TripDetailState extends State<TripDetail> {
-  final TextEditingController _controller = TextEditingController();
+class TripDetailState extends State<TripDetail> implements TripDetailUICallBack {
+
+  TripDetailState(){
+
+  }
+
+  @override
+  updateList(List<TripDetailListTileInterface> items) {
+      setState(() {
+        widget._items = items;
+      });
+  }
 
   @override
   Widget build(BuildContext context) {
-    _controller.value = TextEditingValue(text: "100");
+    widget.interface.callBack = this;
+    widget.interface.context = context;
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
           color: Colors.white,
         ),
         title: Text(
-            "Trip Detail",
-            style: TextStyle(color: Colors.white),
-      ),
+          "Trip Detail",
+          style: TextStyle(color: Colors.white),
+        ),
       ),
       body: Column(
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(top: 5),
-              width: double.infinity,
-              child: TextField(
-                controller: _controller,
-                  decoration: InputDecoration(
-                    labelText: "max bookings",
-                  )
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 5),
-              width: double.infinity,
-              child: TextField(
-                  controller: _controller,
-                  decoration: InputDecoration(
-                    labelText: "Total bookings",
-                  )
-              ),
-            ),
-            Container(
-              height: 50.0,
-              width: double.infinity,
-              alignment: Alignment.center,
-              child: Text("List of Booked Users"),
-            ),
-            getSeparator(),
-            Expanded(
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(top: 5, left: 10.0, right: 10.0),
+            width: double.infinity,
+            child: TextField(
+                enabled: widget.interface.isMaxBookingEditable,
+                controller: widget._maxBookingcontroller,
+                decoration: InputDecoration(
+                  labelText: "max bookings",
+                )),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 5, left: 10.0, right: 10.0),
+            width: double.infinity,
+            child: TextField(
+                enabled: false,
+                controller: widget._totalBookingcontroller,
+                decoration: InputDecoration(
+                  labelText: "Total bookings",
+                )),
+          ),
+          Container(
+            height: 50.0,
+            width: double.infinity,
+            alignment: Alignment.center,
+            child: Text("List of Booked Users"),
+          ),
+          getSeparator(),
+          Expanded(
               child: Container(
-               child: getList(),
-            )
-            ),
-            getSeparator(),
-            Container(
-              margin: EdgeInsets.all(10.0),
-              height: 50.0,
-              width: double.infinity,
-              color: Theme.of(context).primaryColor,
-              child: FlatButton(onPressed: (){
-
-              }, child: Text("Button", style: TextStyle(color: Colors.white),)),
-            )
-          ],
-        ),
-      );
+                child: getList(),
+          )),
+          getSeparator(),
+          Container(
+            margin: EdgeInsets.all(10.0),
+            height: 50.0,
+            width: double.infinity,
+            color: Theme.of(context).primaryColor,
+            child: FlatButton(
+                onPressed: () {
+                  widget.interface.buttonTapped();
+                },
+                child: Text(
+                  widget.interface.buttonTitle,
+                  style: TextStyle(color: Colors.white),
+                )),
+          )
+        ],
+      ),
+    );
   }
 
-  Widget getSeparator(){
+  Widget getSeparator() {
     return Container(
       height: 2,
       width: double.infinity,
       color: Colors.grey,
     );
   }
+
   Widget getList() {
     if (widget._items.length > 0) {
       return ListView.builder(
@@ -96,13 +125,11 @@ class TripDetailState extends State<TripDetail> {
   }
 }
 
+class SelectionListTile extends StatefulWidget {
+  TripDetailListTileInterface interface;
 
-class SelectionListTile extends StatefulWidget{
-  String name;
-  bool isSelected = false;
-
-  SelectionListTile(String name){
-    this.name = name;
+  SelectionListTile(TripDetailListTileInterface interface) {
+    this.interface = interface;
   }
 
   @override
@@ -125,20 +152,25 @@ class SelectionListTileState extends State<SelectionListTile> {
               child: Row(
                 children: <Widget>[
                   Container(
-                    child:Icon((widget.isSelected) ? Icons.check_box : Icons.check_box_outline_blank, color: Colors.black54,),
+                    child: Icon(
+                      (widget.interface.isSelected)
+                          ? Icons.check_box
+                          : Icons.check_box_outline_blank,
+                      color: Colors.black54,
+                    ),
                   ),
                   Expanded(
                     child: Container(
                       width: double.infinity,
-                      padding: EdgeInsets.only(left: 10.0,right: 10.0),
-                      child: Text(widget.name, textAlign: TextAlign.left),
+                      padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                      child: Text(widget.interface.name, textAlign: TextAlign.left),
                     ),
                   ),
                   Container(
                     height: 58,
                     alignment: Alignment.centerLeft,
-                    padding: EdgeInsets.only(left: 10.0,right: 10.0),
-                    child: Text("548326", textAlign: TextAlign.left),
+                    padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                    child: Text(widget.interface.empID, textAlign: TextAlign.left),
                   )
                 ],
               ),
@@ -151,9 +183,9 @@ class SelectionListTileState extends State<SelectionListTile> {
           ],
         ),
       ),
-      onPressed: (){
+      onPressed: () {
         setState(() {
-          widget.isSelected = !widget.isSelected;
+          widget.interface.isSelected = !widget.interface.isSelected;
         });
       },
     );
