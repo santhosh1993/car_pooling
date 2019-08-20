@@ -40,8 +40,10 @@ class LoginData implements LoginUIInterface,LoginRequestInterface{
   }
 
   void loginTheUser() async {
-      Loader.shared.addLoaderToContext(context);
-      Map data = await LoginRequest(this).login();
-      result(data);
+      if(context != null) {
+        Loader.shared.addLoaderToContext(context);
+        Map data = await LoginRequest(this).login();
+        result(data);
+      }
   }
 }

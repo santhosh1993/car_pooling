@@ -5,6 +5,9 @@ import 'package:car_pooling/Interfaces/ProfileInterface.dart';
 class ProfileData implements ProfileInterface {
 
   @override
+  BuildContext context;
+
+  @override
   Map<String, Object> _userDetails = {
     "firstName": "Suneelkumar",
     "secondName": "Gavara",
