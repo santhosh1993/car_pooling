@@ -33,7 +33,9 @@ class HomeState extends State<Home> {
   Widget build(BuildContext context) {
 
     widget.interface.context = context;
-    WidgetsBinding.instance.addPostFrameCallback(widget.interface.layoutLoadingFinished());
+    WidgetsBinding.instance.addPostFrameCallback((duration) {
+      widget.interface.layoutLoadingFinished();
+    });
 
     return DefaultTabController(
       length: widget.interface.tabsData.length,

@@ -33,14 +33,14 @@ class LoginData implements LoginUIInterface,LoginRequestInterface{
     // TODO: implement result
     print(json);
     User.updateUser(json);
-    Loader.shared.removeLoaderFromContext();
+    //Loader.shared.removeLoaderFromContext();
     if (json["user_name"] != null){
       Navigator.pushNamed(context, '/Home');
     }
   }
 
   void loginTheUser() async {
-      Loader.shared.addLoaderToContext(context);
+      //Loader.shared.addLoaderToContext(context);
       Map data = await LoginRequest(this).login();
       result(data);
   }

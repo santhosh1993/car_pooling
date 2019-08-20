@@ -121,9 +121,9 @@ class DashBoardTileData implements DashBoardListTileInterface, SeatAvailabilityR
 
   @override
   String userName = "";
-  
+
   List<Service> _services;
-  
+
   DashBoardTileData(List<Service> services, String time){
     this.time = time;
     this._services = services;
@@ -165,12 +165,12 @@ class DashBoardTileData implements DashBoardListTileInterface, SeatAvailabilityR
   }
 
   updateTheBooking(int index) {
-    cancelTheBooking();
     if (selectedIndex != index){
-      createTheBooking(index);
+      bookTheSeat(index);
     }
-    selectedIndex = -1;
-    updateUserServices(_services);
+    else{
+      cancelTheBooking();
+    }
   }
 
   pushToDetailPage(Service service){
@@ -186,19 +186,16 @@ class DashBoardTileData implements DashBoardListTileInterface, SeatAvailabilityR
     }
   }
 
-  void createTheBooking(int index) {
-    User.shared.bookedServices.add(_services[index]);
+  bookTheSeat(int index) async {
     this.serviceId = _services[index].serviceId;
-    bookTheSeat();
+
+    Map data = await SeatAvailabilityRequest().createTheBooking(this);
+    if (data["status_code"] == 2001 && index >= 0) {
+      selectedIndex = index;
+      User.shared.bookedServices.add(_services[index]);
+    }
+    callback.updateData(names);
   }
 
-  bookTheSeat() async {
-    Map data = await SeatAvailabilityRequest().updateTheBooking(this);
-    if (data["status_code"] == 2001) {
-
-    }
-    else{
-
-    }
-  }
+  
 }

@@ -33,12 +33,12 @@ class HomeData implements HomeUIInterface {
   }
 
   getTheServices() async {
-    Loader.shared.addLoaderToContext(context);
+    //Loader.shared.addLoaderToContext(context);
     List data = await SeatAvailabilityRequest().getSeatAvailabilityList();
     ServicesList services = ServicesList(data);
     groupedData = services.groupByDateAndByTime();
     updateTheChildWidgets();
-    Loader.shared.removeLoaderFromContext();
+   // Loader.shared.removeLoaderFromContext();
   }
 
   updateTheChildWidgets() {
