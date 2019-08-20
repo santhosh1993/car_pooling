@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter/cupertino.dart';
 
 class AlertHandler {
 
@@ -7,7 +7,7 @@ class AlertHandler {
   static showAlertOnContext(BuildContext context, SimpleAlertData alertData) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (context) => CupertinoAlertDialog(
         title: Text(alertData.title),
         content: Text(alertData.content),
         actions: alertData.buttons,

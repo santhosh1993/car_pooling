@@ -6,6 +6,7 @@ import 'package:car_pooling/UI/Loader.dart';
 import 'package:car_pooling/Model/User.dart';
 import 'package:car_pooling/Model/Service.dart';
 import 'package:car_pooling/DataHandler/TripDetailData.dart';
+import 'package:car_pooling/UI/Alert.dart';
 
 class DashBoardData implements DashBoardUIInterface{
 
@@ -93,7 +94,7 @@ class DashBoardData implements DashBoardUIInterface{
   }
 }
 
-class DashBoardTileData implements DashBoardListTileInterface, SeatAvailabilityRequestInterface {
+class DashBoardTileData implements DashBoardListTileInterface, SeatAvailabilityRequestInterface, SeatBookingUpdateInterface {
 
   @override
   BuildContext context;
@@ -122,7 +123,14 @@ class DashBoardTileData implements DashBoardListTileInterface, SeatAvailabilityR
   @override
   String userName = "";
 
+  @override
+  List<int> bookingIds = [];
+
+  @override
+  String type = 'delete';
+
   List<Service> _services;
+  UserDetails details;
 
   DashBoardTileData(List<Service> services, String time){
     this.time = time;
@@ -140,7 +148,8 @@ class DashBoardTileData implements DashBoardListTileInterface, SeatAvailabilityR
   updateUserServices(List<Service> services) {
     names = [];
     for(int i = 0 ; i < services.length; i++) {
-      if (User.shared.bookedServices.contains(services[i])){
+      if (services[i].details != null){
+        details = services[i].details;
         selectedIndex = i;
       }
       names.add(services[i].type.serviceType);
@@ -165,12 +174,34 @@ class DashBoardTileData implements DashBoardListTileInterface, SeatAvailabilityR
   }
 
   updateTheBooking(int index) {
+    String message = "";
     if (selectedIndex != index){
-      bookTheSeat(index);
+      message = "Would you like to book a seat for ${_services[index].type.serviceType}";
     }
     else{
-      cancelTheBooking();
+      message = "Would you like to cancel a seat for ${_services[index].type.serviceType}";
     }
+    List<FlatButton> buttons = [
+      FlatButton(
+        onPressed: (){
+          Navigator.pop(context);
+          if (selectedIndex != index) {
+            bookTheSeat(index);
+          }
+          else{
+            cancelTheSeat();
+          }
+        },
+        child: Text("OK"),
+      ),
+      FlatButton(
+        onPressed: (){
+          Navigator.pop(context);
+        },
+        child: Text("Cancel"),
+      )
+    ];
+    AlertHandler.showAlertOnContext(context, SimpleAlertData("", message, buttons));
   }
 
   pushToDetailPage(Service service){
@@ -190,12 +221,27 @@ class DashBoardTileData implements DashBoardListTileInterface, SeatAvailabilityR
     this.serviceId = _services[index].serviceId;
 
     Map data = await SeatAvailabilityRequest().createTheBooking(this);
-    if (data["status_code"] == 2001 && index >= 0) {
+    if (data["id"] != null) {
+      var details = UserDetails(data);
+      _services[index].bookedUsers.add(details);
+      this.details = details;
       selectedIndex = index;
       User.shared.bookedServices.add(_services[index]);
     }
     callback.updateData(names);
   }
 
-
+  cancelTheSeat() async {
+    if(details != null) {
+      bookingIds = [int.parse(details.bookingId)];
+      Map data = await SeatAvailabilityRequest().updateTheBooking(this);
+      if(data["status_code"] == 2002) {
+        User.shared.bookedServices.remove(_services[selectedIndex]);
+        _services[selectedIndex].details = null;
+        _services[selectedIndex].bookedUsers.remove(details);
+        selectedIndex = -1;
+      }
+      callback.updateData(names);
+    }
+  }
 }

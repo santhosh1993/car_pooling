@@ -8,6 +8,7 @@ class Service {
   String date;
   String time;
   int maxBookings;
+  UserDetails details;
 
   Service(Map json){
     this.serviceId = "${json["id"]}";
@@ -18,6 +19,9 @@ class Service {
 
     for(int i = 0; i<users.length; i++) {
        UserDetails details = UserDetails(users[i]);
+       if(details.isCurrentUser()){
+         this.details = details;
+       }
        bookedUsers.add(details);
        if (details.userId == User.shared.userId) {
          User.shared.addService(this);
@@ -56,6 +60,10 @@ class UserDetails {
     this.bookingId = "${json["id"]}";
     this.userId = "${json["user_id"]}";
     this.employeeId = "${json["employeeId"]}";
+  }
+
+  bool isCurrentUser(){
+    return (employeeId == User.shared.employeeId);
   }
 }
 

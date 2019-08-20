@@ -38,11 +38,11 @@ class SeatAvailabilityRequest extends BaseRequest {
 
   Future<Map> updateTheBooking(SeatBookingUpdateInterface interface) async {
     String apiURL = baseUrl + "SeatBooking/userbookingupdate/${interface.type}/";
-    Map body = {
+    String body = jsonEncode({
       "ids": interface.bookingIds
-    };
+    });
 
-    http.Response response = await http.post(apiURL, headers: headers, body: body);
+    http.Response response = await http.post(apiURL, headers: {'Content-type': 'application/json'}, body: body);
     return json.decode(response.body);
   }
 
