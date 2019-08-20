@@ -3,8 +3,10 @@ import 'package:car_pooling/UI/TripDetail.dart';
 import 'package:car_pooling/Model/Service.dart';
 import 'package:car_pooling/Interfaces/TripDetailInterfaces.dart';
 import 'package:car_pooling/Model/User.dart';
+import 'package:car_pooling/UI/Alert.dart';
+import 'package:car_pooling/ServiceLayer/SeatAvailabilityRequest.dart';
 
-class TripDetailData implements TripDetailUIInterface {
+class TripDetailData implements TripDetailUIInterface, SeatBookingUpdateInterface {
   TripDetail detail;
   Service _service;
   bool isAdmin = (User.shared.userType.toLowerCase() == "a");
@@ -13,6 +15,11 @@ class TripDetailData implements TripDetailUIInterface {
   @override
   BuildContext context;
   List<TripDetailListTileData> tilesData = [];
+  @override
+  List<int> bookingIds = [];
+
+  @override
+  String type = 'delete';
 
   TripDetailData(Service service) {
     this._service = service;
@@ -53,8 +60,70 @@ class TripDetailData implements TripDetailUIInterface {
 
   @override
   buttonTapped() {
-    var updatedTilesData = tilesData.where((tileData) => !tileData.isSelected).toList();
-    callBack.updateList(updatedTilesData);
+    String title = "";
+    String message = "";
+    if (isAdmin){
+      title = "Drop out";
+      message = "Would you like to delete the users from the trip";
+    }
+    else{
+        title = "Turned up";
+        message = "Would you like to start the trip with the selected users";
+    }
+
+    List<FlatButton> buttons = [
+      FlatButton(
+        onPressed: (){
+          if(isAdmin){
+            dropOutTheSelectedUsers();
+          }
+          else{
+            turnedUpTheUsers();
+          }
+          Navigator.pop(context);
+        },
+        child: Text("OK"),
+      ),
+      FlatButton(
+        onPressed: (){
+          Navigator.pop(context);
+        },
+        child: Text("Cancel"),
+      )
+    ];
+    AlertHandler.showAlertOnContext(context, SimpleAlertData(title, message, buttons));
+  }
+
+  dropOutTheSelectedUsers() async{
+    type = "delete";
+    var updatedTilesData = tilesData.where((tileData) => tileData.isSelected).toList();
+    bookingIds = [];
+    for(int i = 0; i<updatedTilesData.length;i++) {
+      bookingIds.add(int.parse(updatedTilesData[i].details.bookingId));
+    }
+    Map data = await SeatAvailabilityRequest().updateTheBooking(this);
+    if(data["status_code"] == 2002) {
+      tilesData = tilesData.where((tileData) => !tileData.isSelected).toList();
+      _service.bookedUsers = [];
+      for(int i =0 ; i<tilesData.length; i++) {
+        _service.bookedUsers.add(tilesData[i].details);
+      }
+    }
+    callBack.updateList(tilesData);
+  }
+
+  turnedUpTheUsers() async {
+    type = "turned_up";
+    var updatedTilesData = tilesData.where((tileData) => tileData.isSelected).toList();
+    bookingIds = [];
+    for(int i = 0; i<updatedTilesData.length;i++) {
+      bookingIds.add(int.parse(updatedTilesData[i].details.bookingId));
+    }
+    Map data = await SeatAvailabilityRequest().updateTheBooking(this);
+    if(data["status_code"] == 2002) {
+      Navigator.pop(context);
+    }
+    callBack.updateList(tilesData);
   }
 
   @override
@@ -80,9 +149,12 @@ class TripDetailListTileData implements TripDetailListTileInterface{
   @override
   String name;
 
+  UserDetails details;
+
   TripDetailListTileData(UserDetails userDetails) {
     empID = userDetails.employeeId;
     name = userDetails.userName;
+    details = userDetails;
   }
 
 }
