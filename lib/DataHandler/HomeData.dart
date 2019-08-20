@@ -6,7 +6,7 @@ import 'package:car_pooling/ServiceLayer/SeatAvailabilityRequest.dart';
 import 'package:car_pooling/Model/Service.dart';
 import 'package:car_pooling/DataHandler/ProfileData.dart';
 
-class HomeData implements HomeUIInterface, SeatAvailabilityRequestInterface {
+class HomeData implements HomeUIInterface {
 
   @override
   List<TabInterface> tabsData = [];
@@ -27,7 +27,7 @@ class HomeData implements HomeUIInterface, SeatAvailabilityRequestInterface {
   }
 
   getTheServices() async {
-    List data = await SeatAvailabilityRequest(this).getSeatAvailabilityList();
+    List data = await SeatAvailabilityRequest().getSeatAvailabilityList();
     ServicesList services = ServicesList(data);
     groupedData = services.groupByDateAndByTime();
     updateTheChildWidgets();

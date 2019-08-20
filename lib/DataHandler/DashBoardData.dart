@@ -7,7 +7,7 @@ import 'package:car_pooling/Model/User.dart';
 import 'package:car_pooling/Model/Service.dart';
 import 'package:car_pooling/DataHandler/TripDetailData.dart';
 
-class DashBoardData implements DashBoardUIInterface, SeatAvailabilityRequestInterface{
+class DashBoardData implements DashBoardUIInterface{
 
   DashBoard dashboard;
 
@@ -93,7 +93,7 @@ class DashBoardData implements DashBoardUIInterface, SeatAvailabilityRequestInte
   }
 }
 
-class DashBoardTileData implements DashBoardListTileInterface {
+class DashBoardTileData implements DashBoardListTileInterface, SeatAvailabilityRequestInterface {
 
   @override
   BuildContext context;
@@ -109,12 +109,27 @@ class DashBoardTileData implements DashBoardListTileInterface {
 
   @override
   int selectedIndex = -1;
+
+  @override
+  String employeeId = "";
+
+  @override
+  String serviceId = "";
+
+  @override
+  String userId = "";
+
+  @override
+  String userName = "";
   
   List<Service> _services;
   
   DashBoardTileData(List<Service> services, String time){
     this.time = time;
     this._services = services;
+    this.userId = User.shared.userId;
+    this.userName = User.shared.userName;
+    this.employeeId = User.shared.employeeId;
 
     this._services.sort((service_1,service_2) {
       return service_1.type.serviceType.compareTo(service_2.type.serviceType);
@@ -173,5 +188,17 @@ class DashBoardTileData implements DashBoardListTileInterface {
 
   void createTheBooking(int index) {
     User.shared.bookedServices.add(_services[index]);
+    this.serviceId = _services[index].serviceId;
+    bookTheSeat();
+  }
+
+  bookTheSeat() async {
+    Map data = await SeatAvailabilityRequest().updateTheBooking(this);
+    if (data["status_code"] == 2001) {
+
+    }
+    else{
+
+    }
   }
 }
