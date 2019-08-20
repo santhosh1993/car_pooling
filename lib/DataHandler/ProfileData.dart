@@ -1,6 +1,7 @@
 import 'package:car_pooling/UI/Profile.dart';
 import 'package:flutter/material.dart';
 import 'package:car_pooling/Interfaces/ProfileInterface.dart';
+import 'package:car_pooling/Model/User.dart';
 
 class ProfileData implements ProfileInterface {
 
@@ -32,15 +33,11 @@ class ProfileData implements ProfileInterface {
 
   @override
   String getEmployeeId() {
-    var employeeId = _userDetails["employeeId"] as int;
-    return "${employeeId}";
+    return User.shared.employeeId;
   }
 
   @override
   String getEmployeeName() {
-
-    var firstName = _userDetails["firstName"] as String;
-    var secondName = _userDetails["secondName"] as String;
-    return firstName + " " + secondName;
+    return User.shared.userName;
   }
 }
