@@ -5,11 +5,15 @@ import 'package:car_pooling/Interfaces/HomeScreenInterfaces.dart';
 import 'package:car_pooling/ServiceLayer/SeatAvailabilityRequest.dart';
 import 'package:car_pooling/Model/Service.dart';
 import 'package:car_pooling/DataHandler/ProfileData.dart';
+import 'package:car_pooling/UI/Loader.dart';
 
 class HomeData implements HomeUIInterface {
 
   @override
   List<TabInterface> tabsData = [];
+
+  @override
+  BuildContext context;
 
   Home home;
   DashBoardData _dashBoardData = DashBoardData();
@@ -22,15 +26,19 @@ class HomeData implements HomeUIInterface {
       TabData(_profileData.getWidget(), "Profile", Icons.person),
     ];
     home = Home(this);
+  }
 
+  layoutLoadingFinished() {
     getTheServices();
   }
 
   getTheServices() async {
-    List data = await SeatAvailabilityRequest().getSeatAvailabilityList();
+    Loader.shared.addLoaderToContext(context);
+    List data = await SeatAvailabilityRequest(this).getSeatAvailabilityList();
     ServicesList services = ServicesList(data);
     groupedData = services.groupByDateAndByTime();
     updateTheChildWidgets();
+    Loader.shared.removeLoaderFromContext();
   }
 
   updateTheChildWidgets() {

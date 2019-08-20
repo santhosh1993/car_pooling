@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+abstract class BaseUIInterface {
+  layoutLoadingFinished();
+  BuildContext context;
+}
 abstract class DateHeaderUIInterface {
   String dateStr;
   void leftTapped();
@@ -15,7 +19,7 @@ abstract class DashboardUICallback {
   updateData(List<DashBoardListTileInterface> items);
 }
 
-abstract class HomeUIInterface {
+abstract class HomeUIInterface extends BaseUIInterface {
   List<TabInterface> tabsData;
 }
 
