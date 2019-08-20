@@ -9,20 +9,6 @@ class Profile extends StatelessWidget {
 
   onTapProfileCell(int index) {
 
-    AlertHandler.showAlertOnContext(interface.context, getAlertData());
-  }
-
-  SimpleAlertData getAlertData() {
-
-    return SimpleAlertData("Alert!",
-        "Are You Sure You Want to See Profile",
-        "No",
-        "Yes",
-        (){
-      Navigator.pop(interface.context);
-        }, (){
-      Navigator.pop(interface.context);
-        });
   }
 
   @override

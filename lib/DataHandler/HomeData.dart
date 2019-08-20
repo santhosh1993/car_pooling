@@ -26,6 +26,7 @@ class HomeData implements HomeUIInterface {
       TabData(_profileData.getWidget(), "Profile", Icons.person),
     ];
     home = Home(this);
+    layoutLoadingFinished();
   }
 
   layoutLoadingFinished() {
