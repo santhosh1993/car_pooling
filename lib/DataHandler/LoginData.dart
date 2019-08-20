@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:car_pooling/UI/Loader.dart';
 import 'package:car_pooling/Model/User.dart';
 
-class LoginData implements LoginUIInterface,LoginRequestInterface{
+class LoginData implements LoginUIInterface, LoginRequestInterface {
   @override
   String userName = "";
   @override
@@ -18,7 +18,7 @@ class LoginData implements LoginUIInterface,LoginRequestInterface{
     login = Login(this);
   }
 
-  Widget getWidget(){
+  Widget getWidget() {
     return login;
   }
 
@@ -34,14 +34,14 @@ class LoginData implements LoginUIInterface,LoginRequestInterface{
     print(json);
     User.updateUser(json);
     //Loader.shared.removeLoaderFromContext();
-    if (json["user_name"] != null){
+    if (json["user_name"] != null) {
       Navigator.pushNamed(context, '/Home');
     }
   }
 
   void loginTheUser() async {
-      //Loader.shared.addLoaderToContext(context);
-      Map data = await LoginRequest(this).login();
-      result(data);
+    Loader.shared.addLoaderToContext(context);
+    Map data = await LoginRequest(this).login();
+    result(data);
   }
 }

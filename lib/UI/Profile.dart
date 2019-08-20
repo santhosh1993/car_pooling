@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:car_pooling/Interfaces/ProfileInterface.dart';
+import 'package:car_pooling/UI/Alert.dart';
 
 class Profile extends StatelessWidget {
 
@@ -8,10 +9,25 @@ class Profile extends StatelessWidget {
 
   onTapProfileCell(int index) {
 
+    AlertHandler.showAlertOnContext(interface.context, getAlertData());
   }
+
+  SimpleAlertData getAlertData() {
+
+    return SimpleAlertData("Alert!",
+        "Are You Sure You Want to See Profile",
+        "No",
+        "Yes",
+        (){
+      Navigator.pop(interface.context);
+        }, (){
+      Navigator.pop(interface.context);
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
-
+    interface.context = context;
     // TODO: implement build
     return Container(
       child: Column(
@@ -27,12 +43,14 @@ class Profile extends StatelessWidget {
               ),
               child: ListView.separated(
                 separatorBuilder: (context, index) => Divider(
-                  height: 1,color: Colors.black12,
+                  height: 1,color: Colors.black26,
                 ),
                 itemCount: interface.profileOptions.length,
                 itemBuilder: (context, index) =>
                     ProfileOptions(interface.profileOptions[index],
-                        this.onTapProfileCell(index)),
+                        (){
+                          this.onTapProfileCell(index);
+                        }),
               ),
             ),
           )
@@ -59,7 +77,7 @@ class ProfileView extends StatelessWidget {
           padding: EdgeInsets.all(20),
           child:  Icon(Icons.account_circle,
             size: 100.0,
-            color: Colors.black12,
+            color: Colors.black54,
           )
         ),
         Container(
@@ -69,11 +87,11 @@ class ProfileView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(name, style: TextStyle(fontSize: 20,
-                color: Colors.black12,
+                color: Colors.black54,
                 fontWeight: FontWeight.bold),
                 textAlign: TextAlign.left),
               Text(age,  style: TextStyle( fontWeight: FontWeight.bold,
-                  color: Colors.black12,
+                  color: Colors.black54,
                   fontSize: 15),
                 textAlign: TextAlign.left)
             ],
@@ -105,7 +123,7 @@ class ProfileOptions extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.only(left: 20),
               child: Text(title, style: TextStyle(fontSize: 16,
-                  color: Colors.grey)),
+                  color: Colors.black54)),
             )
           ),
           Expanded(

@@ -197,5 +197,5 @@ class DashBoardTileData implements DashBoardListTileInterface, SeatAvailabilityR
     callback.updateData(names);
   }
 
-  
+
 }
