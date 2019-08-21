@@ -58,29 +58,29 @@ class ProfileView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Padding(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.all(30),
             child: Icon(
-              Icons.account_circle,
-              size: 100.0,
-              color: Colors.black54,
+              Icons.person_outline,
+              size: 40.0,
+              color: Theme.of(context).primaryColor,
             )),
         Container(
           height: 100,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(name,
                   style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 17,
                       color: Colors.black54,
-                      fontWeight: FontWeight.bold),
+                      fontWeight: FontWeight.w600),
                   textAlign: TextAlign.left),
               Text(age,
                   style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w600,
                       color: Colors.black54,
-                      fontSize: 15),
+                      fontSize: 13),
                   textAlign: TextAlign.left)
             ],
           ),
@@ -109,16 +109,20 @@ class ProfileOptions extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Expanded(
-                      flex: 8,
                       child: Padding(
                         padding: EdgeInsets.only(left: 20),
                         child: Text(title,
                             style:
-                                TextStyle(fontSize: 16, color: Colors.black54)),
+                            TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black54,
+                                fontSize: 14)),
                       )),
-                  Expanded(
-                    flex: 2,
-                    child: Icon(Icons.arrow_forward_ios),
+                  Container(
+                    height: 50.0,
+                    width: 40.0,
+                    margin: EdgeInsets.only(right: 10.0),
+                    child: Icon(Icons.power_settings_new, color: Theme.of(context).primaryColor,),
                   )
                 ],
               ),
