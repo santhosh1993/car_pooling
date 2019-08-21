@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+abstract class BaseUIInterface {
+  layoutLoadingFinished();
+  BuildContext context;
+}
 abstract class DateHeaderUIInterface {
   String dateStr;
   void leftTapped();
@@ -7,26 +11,15 @@ abstract class DateHeaderUIInterface {
 }
 
 abstract class DashBoardUIInterface extends DateHeaderUIInterface {
-  List<DashBoardListTileInterface> items;
   BuildContext context;
+  DashboardUICallback callback;
 }
 
-abstract class AdminUIInterface extends DriverUIInterface {
-
+abstract class DashboardUICallback {
+  updateData(List<DashBoardListTileInterface> items);
 }
 
-abstract class DriverUIInterface extends DateHeaderUIInterface {
-    List<String> timings;
-    List<PeopleListItemInterface> getListOfPeople();
-
-    void selectedItem(int index);
-}
-
-abstract class PeopleListItemInterface {
-
-}
-
-abstract class HomeUIInterface {
+abstract class HomeUIInterface extends BaseUIInterface {
   List<TabInterface> tabsData;
 }
 
@@ -40,6 +33,11 @@ abstract class DashBoardListTileInterface {
   String time;
   List<String> names;
   int selectedIndex;
-
+  DashBoardListTileUICallback callback;
+  BuildContext context;
   void selectedName(int index);
+}
+
+abstract class DashBoardListTileUICallback {
+  updateData(List<String> names);
 }

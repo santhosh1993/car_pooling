@@ -31,6 +31,9 @@ class Home extends StatefulWidget{
 class HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
+
+    widget.interface.context = context;
+
     return DefaultTabController(
       length: widget.interface.tabsData.length,
       child: Scaffold(
@@ -63,13 +66,15 @@ class DashBoard extends StatefulWidget {
   DashBoardUIInterface interface;
   DashBoard(this.interface);
 
+  List<DashBoardListTileInterface> _items = [];
+
   @override
   State<StatefulWidget> createState() {
     return DashBoardState();
   }
 }
 
-class DashBoardState extends State<DashBoard> implements DateHeaderUIInterface{
+class DashBoardState extends State<DashBoard> implements DateHeaderUIInterface, DashboardUICallback{
 
   @override
   String get dateStr => widget.interface.dateStr;
@@ -93,36 +98,65 @@ class DashBoardState extends State<DashBoard> implements DateHeaderUIInterface{
 
   @override
   Widget build(BuildContext context) {
+    widget.interface.context = context;
+    widget.interface.callback = this;
+
     return Column(children: <Widget>[
       DateHeader(this),
       Expanded(
-        child: ListView.builder(
-            itemCount: widget.interface.items.length,
-            itemBuilder: (context, index) {
-              return DashBoardListTile(widget.interface.items[index]);
-            }),
+        child: getList(),
       ),
     ]);
+  }
+
+  Widget getList() {
+    if (widget._items.length > 0) {
+      return ListView.builder(
+          itemCount: widget._items.length,
+          itemBuilder: (context, index) {
+            return DashBoardListTile(widget._items[index]);
+          });
+    }
+    return Center(
+      child: Text("No Data available...."),
+    );
+  }
+
+  @override
+  updateData(List<DashBoardListTileInterface> items) {
+    setState(() {
+      widget._items = items;
+    });
   }
 }
 
 class DashBoardListTile extends StatefulWidget {
   DashBoardListTileInterface interface;
-
-  DashBoardListTile(this.interface);
+  List<String> _names = [];
+  DashBoardListTile(DashBoardListTileInterface interface) {
+    this.interface = interface;
+    _names = interface.names;
+  }
 
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return DashBoardListTileState();
   }
 }
 
-class DashBoardListTileState extends State<DashBoardListTile> {
+class DashBoardListTileState extends State<DashBoardListTile> implements DashBoardListTileUICallback {
+
+  @override
+  updateData(List<String> names) {
+    setState(() {
+      widget._names = names;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    widget.interface.callback = this;
+    widget.interface.context = context;
     return Container(
       child: Column(
         children: <Widget>[
@@ -145,7 +179,7 @@ class DashBoardListTileState extends State<DashBoardListTile> {
                   height: 30.0,
                   child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: widget.interface.names.length,
+                      itemCount: widget._names.length,
                       itemBuilder: (context, index) {
                         return Container(
                             margin: EdgeInsets.only(left: 10.0),
@@ -161,12 +195,10 @@ class DashBoardListTileState extends State<DashBoardListTile> {
                                         : Colors.grey),
                               ),
                               onPressed: () {
-                                setState(() {
                                   widget.interface.selectedName(index);
-                                });
                               },
                               child: Text(
-                                widget.interface.names[index],
+                                widget._names[index],
                                 style: TextStyle(
                                     color: (widget.interface.selectedIndex == index)
                                         ? Colors.white
