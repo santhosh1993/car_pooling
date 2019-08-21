@@ -14,28 +14,33 @@ class Login extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return LoginState(interface);
+    return LoginState();
   }
 }
 
 class LoginState extends State<Login> {
   final TextEditingController _userController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final LoginUIInterface interface;
 
-  LoginState(this.interface);
+  @override
+  void initState() {
+    super.initState();
+    _userController.value = TextEditingValue(text: widget.interface.userName);
+    _passwordController.value = TextEditingValue(text: widget.interface.password);
+  }
   // Login Action
   void loginButtonTapped() {
     setState(() {
-      interface.userName = _userController.text;
-      interface.password = _passwordController.text;
-      interface.loginButtonTapped();
+      widget.interface.userName = _userController.text;
+      widget.interface.password = _passwordController.text;
+      widget.interface.loginButtonTapped();
+      _passwordController.value = TextEditingValue(text: "");
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    interface.context = context;
+    widget.interface.context = context;
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(

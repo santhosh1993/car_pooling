@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:car_pooling/Interfaces/ProfileInterface.dart';
 import 'package:car_pooling/UI/Alert.dart';
+import 'package:car_pooling/UI/Login.dart';
 
 class Profile extends StatelessWidget {
-
   ProfileInterface interface;
   Profile(this.interface);
 
   onTapProfileCell(int index) {
-
+    Navigator.popUntil(
+        interface.context, (Route<dynamic> route) => route.isFirst);
   }
 
   @override
@@ -23,20 +24,18 @@ class Profile extends StatelessWidget {
           Expanded(
             child: Container(
               decoration: BoxDecoration(
-                border: Border(
-                  top: BorderSide(color: Colors.grey, width: 1)
-                )
-              ),
+                  border:
+                      Border(top: BorderSide(color: Colors.grey, width: 1))),
               child: ListView.separated(
                 separatorBuilder: (context, index) => Divider(
-                  height: 1,color: Colors.black26,
-                ),
+                      height: 1,
+                      color: Colors.black26,
+                    ),
                 itemCount: interface.profileOptions.length,
                 itemBuilder: (context, index) =>
-                    ProfileOptions(interface.profileOptions[index],
-                        (){
-                          this.onTapProfileCell(index);
-                        }),
+                    ProfileOptions(interface.profileOptions[index], () {
+                      this.onTapProfileCell(index);
+                    }),
               ),
             ),
           )
@@ -47,39 +46,42 @@ class Profile extends StatelessWidget {
 }
 
 class ProfileView extends StatelessWidget {
-
   String name;
   String age;
 
-  ProfileView(this.name, this.age){}
+  ProfileView(this.name, this.age) {}
 
   @override
   Widget build(BuildContext context) {
-    return  Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.all(20),
-          child:  Icon(Icons.account_circle,
-            size: 100.0,
-            color: Colors.black54,
-          )
-        ),
+            padding: EdgeInsets.all(20),
+            child: Icon(
+              Icons.account_circle,
+              size: 100.0,
+              color: Colors.black54,
+            )),
         Container(
           height: 100,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(name, style: TextStyle(fontSize: 20,
-                color: Colors.black54,
-                fontWeight: FontWeight.bold),
-                textAlign: TextAlign.left),
-              Text(age,  style: TextStyle( fontWeight: FontWeight.bold,
-                  color: Colors.black54,
-                  fontSize: 15),
-                textAlign: TextAlign.left)
+              Text(name,
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black54,
+                      fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.left),
+              Text(age,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black54,
+                      fontSize: 15),
+                  textAlign: TextAlign.left)
             ],
           ),
         )
@@ -87,8 +89,8 @@ class ProfileView extends StatelessWidget {
     );
   }
 }
-class ProfileOptions extends StatelessWidget {
 
+class ProfileOptions extends StatelessWidget {
   String title;
   VoidCallback onTap;
 
@@ -99,27 +101,34 @@ class ProfileOptions extends StatelessWidget {
     return Container(
       height: 50,
       child: GestureDetector(
-      onTap: this.onTap,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Expanded(
-            flex: 8,
-            child: Padding(
-              padding: EdgeInsets.only(left: 20),
-              child: Text(title, style: TextStyle(fontSize: 16,
-                  color: Colors.black54)),
+          onTap: this.onTap,
+          child: Column(children: <Widget>[
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(
+                      flex: 8,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 20),
+                        child: Text(title,
+                            style:
+                                TextStyle(fontSize: 16, color: Colors.black54)),
+                      )),
+                  Expanded(
+                    flex: 2,
+                    child: Icon(Icons.arrow_forward_ios),
+                  )
+                ],
+              ),
+            ),
+            Container(
+              height: 1.0,
+              width: double.infinity,
+              color: Colors.grey,
             )
-          ),
-          Expanded(
-            flex: 2,
-            child: Icon(Icons.arrow_forward_ios),
-          )
-        ],
-      ),
-    ),
+          ])),
     );
   }
 }
-

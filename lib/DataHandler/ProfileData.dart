@@ -16,9 +16,7 @@ class ProfileData implements ProfileInterface {
   };
   @override
   List<String> profileOptions = [
-    "Edit Profile",
-    "Booking History",
-    "Help"
+    "Log Out",
   ];
 
   Profile profile;
